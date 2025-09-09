@@ -31,10 +31,11 @@ body {
 
 header {
   display: flex;
-  justify-content: center; /* centrum horizontálně */
-  align-items: center;     /* vertikální centrování */
-  gap: 40px;               /* mezera mezi logem a CTA */
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
   padding: 40px 0;
+  flex-wrap: wrap;
 }
 
 header img.logo {
@@ -44,13 +45,25 @@ header img.logo {
 
 header .cta {
   display: inline-block;
-  padding: 24px 36px;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  padding: clamp(12px, 1vw, 24px) clamp(24px, 2vw, 36px);
   background: #60a5fa;
   color: #0b1220;
   text-decoration: none;
   font-weight: 700;
   border-radius: 999px;
-  font-size: 1.2rem;
+  white-space: nowrap;
+}
+
+header .cta span {
+  white-space: normal;
+}
+
+header .cta-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  flex-wrap: nowrap;
 }
 
 .first-section {
@@ -64,20 +77,20 @@ header .cta {
 .section-title {
   font-family: 'League Spartan', sans-serif;
   font-weight: 700;          
-  font-size: 5rem;
+  font-size: clamp(1rem, 4vw, 4rem);
   text-decoration: underline;
   color: #60a5fa;
   margin: 40px 0;
   text-align: center;
 
-  background: #fff;          /* bílé pozadí */
-  padding: 20px 40px;        /* vnitřní odsazení */
-  border-radius: 999px;      /* hodně zakulacené rohy = bubble efekt */
-  display: inline-block;     /* bublina se smrskne kolem textu */
+  background: #fff;
+  padding: 20px 40px;
+  border-radius: 999px;
+  display: inline-block;
 }
 
 .first-section img {
-  width: 100%;    /* škáluje se podle wrapperu */
+  width: 100%;
   max-width: 100%;
   height: auto;
   margin-bottom: 20px;
@@ -99,6 +112,77 @@ footer img {
   max-width: 60px;   /* zvětšeno z 40px */
   height: auto;
 }
+
+@media (max-width: 1024px) and (min-width: 601px) {
+
+  .wrapper {
+    width: 90%;
+    max-width: none;
+    margin: 0 auto;  }
+
+   header {
+    flex-direction: row;
+    align-items: center;
+    width: 95%; 
+  }
+
+  header .cta-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  header .cta {
+    width: 100%;
+    max-width: 300px;
+    text-align: left;
+}
+}
+@media (max-width: 600px) {
+  .wrapper {
+    width: 95%;
+    max-width: none;
+    margin: 0 auto;  }
+
+  header {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+  }
+
+  header img.logo {
+    width: 180px;
+  }
+
+  header .cta-wrapper {
+    flex-direction: column;
+    width: 95%;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  header .cta {
+    width: 95%; 
+    font-size: 1rem;
+    padding: 16px 24px;
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    padding: 10px 20px;
+  }
+
+  footer {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  footer img {
+    max-width: 80px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -106,8 +190,11 @@ footer img {
 <div class="wrapper">
  <header>
    <img class="logo" src="Logo-blejskarna.png" alt="Logo">
-    <a class="cta" href="tel:+420 601 006 076">Chytni blejsk na +420 601 006 076</a>
+   <div class="cta-wrapper">
+    <a class="cta" href="tel:+420 601 006 076">Chytni blejsk na <span>+420 601 006 076</span></a>
     <a class="cta" href="#cenik">Ceník</a>
+    <a class="cta" href="#galerie">Galerie</a>
+   </div>
  </header>
 
  <section class="first-section">
