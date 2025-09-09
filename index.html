@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blejskárna</title>
+
+<style>
+@font-face {
+  font-family: 'Monteria';
+  src: url('mika-melvas-monteria-regular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'League Spartan';
+  src: url('LeagueSpartan-VariableFont_wght.ttf') format('truetype');
+}
+
+.wrapper {
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'League Spartan', sans-serif;
+  background: url('bg.png') no-repeat center center fixed;
+  background-size: cover;
+  color: #000;
+}
+
+header {
+  display: flex;
+  justify-content: center; /* centrum horizontálně */
+  align-items: center;     /* vertikální centrování */
+  gap: 40px;               /* mezera mezi logem a CTA */
+  padding: 40px 0;
+}
+
+header img.logo {
+  width: 240px;
+  height: auto;
+}
+
+header .cta {
+  display: inline-block;
+  padding: 24px 36px;
+  background: #60a5fa;
+  color: #0b1220;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 999px;
+  font-size: 1.2rem;
+}
+
+.first-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+}
+
+.section-title {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 700;          
+  font-size: 5rem;
+  text-decoration: underline;
+  color: #60a5fa;
+  margin: 40px 0;
+  text-align: center;
+
+  background: #fff;          /* bílé pozadí */
+  padding: 20px 40px;        /* vnitřní odsazení */
+  border-radius: 999px;      /* hodně zakulacené rohy = bubble efekt */
+  display: inline-block;     /* bublina se smrskne kolem textu */
+}
+
+.first-section img {
+  width: 100%;    /* škáluje se podle wrapperu */
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  margin: 0;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background: rgba(255,255,255,0.5);
+  padding: 20px;
+  font-size: 16px;   /* zvětšeno z 14px */
+  color: #000;
+}
+
+footer img {
+  max-width: 60px;   /* zvětšeno z 40px */
+  height: auto;
+}
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+ <header>
+   <img class="logo" src="Logo-blejskarna.png" alt="Logo">
+    <a class="cta" href="tel:+420 601 006 076">Chytni blejsk na +420 601 006 076</a>
+    <a class="cta" href="#cenik">Ceník</a>
+ </header>
+
+ <section class="first-section">
+   <img src="jak-k-nam.svg" alt="Jak k nám">
+    <h2 class="section-title" id="cenik">CENÍK</h2>
+   <img src="ceník.svg" alt="Ceník" id="ceník">
+ </section>
+
+ <footer>
+   <img src="Logo-blejskarna.png">
+   <div>
+     <strong>Blejskárna ŠTATL</strong><br>
+     Příkop 4, 602 00 Brno-střed Zábrdovice<br>
+     IČO: 022 67 918, DIČ: CZ02267918<br>
+     ✉️ <a href="mailto:blejskarnastatl@gmail.com">blejskarnastatl@gmail.com</a> | 📞 <a href="tel:+420 601 006 076">+420 601 006 076</a><br>
+     <a href="https://www.facebook.com/blejskarna.statl/">Facebook</a>
+     <a href="https://www.instagram.com/blejskarna_statl/?utm_source=ig_web_button_share_sheet">Instagram</a>
+     <a href="https://en.firmy.cz/company/13862522-blejskarna-statl-brno-zabrdovice.html">Firmy.cz</a>
+   </div>
+ </footer>
+</div>
+</body>
+</html>
