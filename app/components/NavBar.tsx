@@ -13,8 +13,9 @@ export default function NavBar() {
   return (
     <header className="site-nav-wrapper">
       <div className="site-nav">
+
+        {/* Logo vlevo */}
         <div className="nav-logo">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <Image
             src="/LOGO-blejskarna.svg"
             alt="Blejskárna logo"
@@ -23,20 +24,24 @@ export default function NavBar() {
           />
         </div>
 
-        <nav className="nav-menu">
-          {navLinks.map((link) => (
-            <a key={link.href} href={link.href} className="nav-pill">
-              {link.label}
-            </a>
-          ))}
-          {}
+        {/* Pravá část: telefon + menu */}
+        <div className="nav-phone">
           <a
-            href="tel:+420 601 006 076"
+            href="tel:+420601006076"
             className="nav-pill nav-pill--highlight"
           >
             Chytni blejsk 📞 +420 601 006 076
           </a>
-        </nav>
+
+          <nav className="nav-menu">
+            {navLinks.map((link) => (
+              <a key={link.href} href={link.href} className="nav-pill">
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+
       </div>
     </header>
   );
