@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Monteria';
+  src: url('resources/mika-melvas-monteria-regular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'League Spartan';
+  src: url('resources/LeagueSpartan-VariableFont_wght.ttf') format('truetype');
+}
+
+:root {
+  --blejsk-yellow: #ffcc00;       /* základní žlutá */
+  --blejsk-yellow-dots: #a16b15;  /* tmavší žlutá pro puntíky */
+  --blejsk-blue: #64bef1;         /* modré bubliny menu */
+  --blejsk-blue-hover: #0d99ff;
+}
+
+/* ===== ZÁKLAD STRÁNKY – POZADÍ S PUNTÍKY ===== */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'League Spartan', sans-serif;
+}
+
+/* základ stránky + obrázek na pozadí */
+body {
+  background-color: var(--blejsk-yellow);
+  background-image: url("resources/bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+/* vnitřní šířka obsahu (main + footer) */
+.page-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1.75rem 3.5rem;
+}
+
+/* ===== NAVBAR ===== */
+
+.site-nav-wrapper {
+  padding-top: 1.2rem;
+  padding-bottom: 0.5rem;
+}
+
+.site-nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.75rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+/* logo vlevo */
+.nav-logo img {
+  display: block;
+  height: 22vh;  /* uprav podle pocitu */
+  width: auto;
+}
+
+/* menu vpravo, modré bubliny */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.nav-pill {
+  text-decoration: none;
+  padding: 0.6rem 1.4rem 0.4rem 1.4rem;
+  border-radius: 999px;
+  background-color: var(--blejsk-blue);
+  color: black;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition:
+    background-color 0.15s ease-out,
+    transform 0.12s ease-out,
+    box-shadow 0.12s ease-out;
+}
+
+.nav-pill--highlight {
+  text-decoration: none;
+  padding: 0.6rem 1.4rem 0.55rem 1.4rem;
+  margin-left: 30px;
+  border-radius: 999px;
+  background-color: var(--blejsk-blue);
+  letter-spacing: 0.03em;
+  color: black;
+  font-size: 1.3rem;
+  font-weight: 750;
+  white-space: nowrap;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition:
+    background-color 0.15s ease-out,
+    transform 0.12s ease-out,
+    box-shadow 0.12s ease-out;
+}
+
+.nav-pill:hover {
+  background-color: var(--blejsk-blue-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* základní jednoduché chování na menších displejích */
+@media (max-width: 900px) {
+  .site-nav {
+    padding-inline: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-logo img {
+    height: 20vh;
+  }
+
+  .nav-menu {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .nav-pill {
+    padding: 0.45rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-menu {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+}
+
+/* ===== FOOTER ===== */
+
+.footer {
+  background: rgba(255, 255, 255, 0.35);
+  color: rgba(0, 0, 0);
+  padding: 1rem 0;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+}
+
+/* první sloupec – logo */
+.footer-logo img {
+  display: block;
+  height: 130px;
+  width: auto;
+}
+
+/* střední sloupec – info */
+.footer-info h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.footer-info p {
+  margin: 0.3rem 0;
+}
+
+.footer-info a {
+  color: var(--blejsk-yellow-dots);
+  text-decoration: none;
+  font-weight: 700;
+}
+.footer-info a:hover {
+  text-decoration: underline;
+}
+
+/* pravý sloupec – sociální odkazy */
+.footer-links h4 {
+  font-weight: 800;
+  font-size: 1.15rem;
+  margin-bottom: 0.6rem;
+}
+
+.footer-link {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 1rem;
+  text-decoration: none;
+  color: rgba(0, 0, 0);
+  padding: 0.25rem 0;
+}
+
+.footer-link:hover {
+  color: var(--blejsk-yellow-dots);
+}
+
+/* lepší responsivita */
+@media (max-width: 900px) {
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 2rem;
+  }
+}
