@@ -66,8 +66,8 @@ export default function VoucherCarousel() {
           <Image
             src={vouchers[index].src}
             alt={vouchers[index].alt}
-            width={800}
-            height={500}
+            width={750}
+            height={400}
             className="voucher-image"
           />
         </div>
