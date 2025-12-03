@@ -8,6 +8,11 @@ import { FaFacebookF, FaInstagram } from "react-icons/fa";
 export const metadata: Metadata = {
   title: "Blejskárna Štatl - ruční myčka aut Brno",
   description: "Poctivá ruční šichta na tvý káře, žádnej šolich!",
+  icons: {
+    icon: '/LOGO-blejskarna.ico',
+    shortcut: '/LOGO-blejskarna.ico',
+    apple: '/LOGO-blejskarna.ico',
+  },
 };
 
 export default function RootLayout({
