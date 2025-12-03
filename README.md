@@ -1,5 +1,8 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+![Deploy Website]
+(https://github.com/blejskarnastatl/blejskarna/actions/workflows/deploy.yml/badge.svg)
+
 ## Getting Started
 
 First, run the development server:
