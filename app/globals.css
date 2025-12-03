@@ -14,7 +14,7 @@
 :root {
   --blejsk-yellow: #ffcc00;       /* základní žlutá */
   --blejsk-yellow-dots: #a16b15;  /* tmavší žlutá pro puntíky */
-  --blejsk-blue: #64bef1;         /* modré bubliny menu */
+  --blejsk-blue: #38b6ff;         /* modré bubliny menu */
   --blejsk-blue-hover: #0d99ff;
 }
 
@@ -35,13 +35,25 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  height: 100%;
 }
 
 /* vnitřní šířka obsahu (main + footer) */
 .page-shell {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.5rem 1.75rem 3.5rem;
+  padding: 1rem 1rem 2rem 1rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.section-image {
+  max-width: 90%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;   /* horizontální centrování */
 }
 
 /* ===== NAVBAR ===== */
@@ -85,7 +97,7 @@ body {
   align-items: center;
   justify-content: center; /* 🔥 menu doprostřed */
   gap: 0.8rem;
-  margin-top: 3rem;      /* mezera pod telefonní bublinou */
+  margin-top: 2.5rem;      /* mezera pod telefonní bublinou */
 }
 
 .nav-pill {
@@ -111,6 +123,7 @@ body {
 /* telefon – speciální bublina NA ŘÁDKU NAD MENU, vpravo */
 .nav-pill--highlight {
   align-self: flex-end;      /* zarovnání vpravo v rámci .nav-phone */
+  margin-right: 5vw;
   text-decoration: none;
   padding: 0.7rem 1.5rem 0.65rem 1.5rem;
   border-radius: 999px;
@@ -137,6 +150,14 @@ body {
 /* ===== RESPONSIVNÍ NAVBAR ===== */
 
 @media (max-width: 900px) {
+  body {
+    background-color: var(--blejsk-yellow);
+    background-image: url("resources/bg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
   .site-nav {
     padding-inline: 1rem;
     flex-direction: column;
@@ -146,6 +167,7 @@ body {
 
   .nav-logo img {
     height: 20vh;
+    transform: translateX(0rem);
   }
 
   .nav-phone {
@@ -183,6 +205,243 @@ body {
   .nav-menu {
     flex-wrap: wrap;
     justify-content: center;
+  }
+}
+
+/* ===== HERO ÚVOD ===== */
+
+.hero {
+  max-width: 1200px;
+  margin: 2rem auto 0;
+  position: relative;
+  min-height: 38vh; 
+}
+
+.hero-main-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* auto vpravo dole – pozice v procentech, škáluje se s šířkou */
+.hero-car-wrapper {
+  position: absolute;
+  right: -50px;        
+  bottom: -9vh;      
+  width: 38vh;        /* velikost auta jako % šířky hero */
+  max-width: 480px;  /* bezpečný limit na velkých monitorech */;
+  margin-right: 20px;
+}
+
+.hero-car-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    position: relative;
+    min-height: 36vh; 
+  }
+
+  .hero-main-image {
+    max-width: 45vw;
+    max-height: 45vh;
+    display: block;
+  }
+
+  /* auto vpravo dole – pozice v procentech, škáluje se s šířkou */
+  .hero-car-wrapper {
+    position: absolute;
+    right: -50px;        
+    bottom: -10vh;      
+    max-width: 18vw;        /* velikost auta jako % šířky hero */
+    max-width: 480px;  /* bezpečný limit na velkých monitorech */;
+    margin-right: 20px;
+  }
+
+  .hero-car-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    position: relative;
+    min-height: 36vh; 
+  }
+
+  .hero-main-image {
+    max-width: 55vw;
+    max-height: 45vh;
+    display: block;
+  }
+
+  /* auto vpravo dole – pozice v procentech, škáluje se s šířkou */
+  .hero-car-wrapper {
+    position: absolute;
+    right: -50px;        
+    bottom: -10vh;      
+    max-width: 18vw;        /* velikost auta jako % šířky hero */
+    max-width: 480px;  /* bezpečný limit na velkých monitorech */;
+    margin-right: 20px;
+  }
+
+  .hero-car-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+
+/* ===== VOUCHER CAROUSEL ===== */
+
+.voucher-carousel {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.voucher-heading {
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+  text-shadow: 10px 10px 10px var(--blejsk-yellow), -10px -10px 10px var(--blejsk-yellow);
+}
+
+.voucher-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.voucher-image-wrapper {
+  max-width: 100%;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 12px 15px 1px rgba(0, 0, 0, 0.65);
+}
+
+.voucher-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Šipky */
+.voucher-arrow {
+  border: none;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 0.12s ease-out,
+    box-shadow 0.12s ease-out,
+    background-color 0.12s ease-out;
+}
+
+.voucher-arrow:hover {
+  transform: translateY(-1px);
+  background: black;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.voucher-arrow--left {
+  margin-right: 0.3rem;
+}
+
+.voucher-arrow--right {
+  margin-left: 0.3rem;
+}
+
+/* Tečky pod carousel */
+.voucher-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.voucher-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  margin: 10px;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.voucher-dot--active {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* responsivní úpravy */
+@media (max-width: 700px) {
+  .voucher-frame {
+    gap: 0.5rem;
+  }
+
+  .voucher-arrow {
+    width: 34px;
+    height: 34px;
+    margin: 10px;
+  }
+
+  .voucher-heading {
+    font-size: 1.8rem;
+  }
+}
+
+/* ANIMACE SLIDOVÁNÍ OBRÁZKU */
+.voucher-slide-right {
+  animation: voucherSlideInRight 200ms ease-out;
+}
+
+.voucher-slide-left {
+  animation: voucherSlideInLeft 200ms ease-out;
+}
+
+@keyframes voucherSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes voucherSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
@@ -234,10 +493,14 @@ body {
 }
 
 /* pravý sloupec – sociální odkazy */
+.footer-links {
+  margin-bottom: 1.4rem;
+}
+
 .footer-links h4 {
   font-weight: 800;
   font-size: 1.15rem;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem;
 }
 
 .footer-link {
@@ -262,11 +525,11 @@ body {
     align-items: center;
     gap: 0.2rem;
   }
-}
-
-/* Skryj logo na mobilech */
-@media (max-width: 900px) {
   .footer-logo {
     display: none;
+  }
+
+  .footer-links {
+    margin-bottom: 0rem;
   }
 }

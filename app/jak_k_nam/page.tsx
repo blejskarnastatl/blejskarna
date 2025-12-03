@@ -1,10 +1,15 @@
+import Image from "next/image";
+
 export default function JakKNamPage() {
   return (
-    <section className="space-y-4">
-      <h1 className="text-2xl font-black uppercase tracking-tight">Ceník</h1>
-      <p className="text-sm md:text-base">
-        Tady pak uděláš přehledný ceník - tabulky, balíčky, poznámky k cenám.
-      </p>
-    </section>
+    <div className="page-shell">
+      <Image
+        src="/jak-k-nam.svg"       // cesta do public/
+        alt="Mapa jak k nám"
+        width={1100}              // sem dej zhruba šířku
+        height={500}              // a výšku (poměr zachová)
+        className="section-image"
+      />
+    </div>
   );
 }
