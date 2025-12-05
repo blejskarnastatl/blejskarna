@@ -50,7 +50,7 @@ export default function RootLayout({
             <a href="mailto:blejskarnastatl@gmail.com">✉️ blejskarnastatl@gmail.com</a>
           </p>
           <p>
-            <a href="tel:+420601006076">📞 +420 601 006 076</a>
+            <a href="tel:+420601006076">📞+420 601 006 076</a>
           </p>
         </div>
 

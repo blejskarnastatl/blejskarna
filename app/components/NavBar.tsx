@@ -30,7 +30,7 @@ export default function NavBar() {
             href="tel:+420601006076"
             className="nav-pill nav-pill--highlight"
           >
-            Chytni blejsk 📞 +420 601 006 076
+            Chytni blejsk 📞+420 601 006 076
           </a>
 
           <nav className="nav-menu">
