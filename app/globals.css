@@ -1,0 +1,559 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Monteria';
+  src: url('resources/mika-melvas-monteria-regular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'League Spartan';
+  src: url('resources/LeagueSpartan-VariableFont_wght.ttf') format('truetype');
+}
+
+:root {
+  --blejsk-yellow: #ffcc00;       /* základní žlutá */
+  --blejsk-yellow-dots: #a16b15;  /* tmavší žlutá pro puntíky */
+  --blejsk-blue: #38b6ff;         /* modré bubliny menu */
+  --blejsk-blue-hover: #0d99ff;
+}
+
+/* ===== ZÁKLAD STRÁNKY – POZADÍ ===== */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'League Spartan', sans-serif;
+}
+
+/* základ stránky + obrázek na pozadí */
+body {
+  background-color: var(--blejsk-yellow);
+  background-image: url("resources/bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100%;
+}
+
+/* vnitřní šířka obsahu (main + footer) */
+.page-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1rem 1rem 1rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.section-image {
+  max-width: 85%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;   /* horizontální centrování */
+}
+
+/* ===== NAVBAR ===== */
+
+.site-nav-wrapper {
+  padding-top: 1.2rem;
+  padding-bottom: 0.5rem;
+}
+
+.site-nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.75rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+/* logo vlevo */
+.nav-logo img {
+  display: block;
+  height: 22vh;
+  width: auto;
+}
+
+/* pravá část – telefon nahoře, menu pod tím */
+.nav-phone {
+  display: flex;
+  flex-direction: column;  /* telefon nad menu */
+  align-items: stretch;    /* děti mají plnou šířku */
+  gap: 0.4rem;
+  flex: 1;                 /* zabere zbytek řádku vedle loga */
+}
+
+/* menu – řádka s bublinami pod telefonem, zarovnaná na střed */
+.nav-menu {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center; /* 🔥 menu doprostřed */
+  gap: 0.8rem;
+  margin-top: 2.5rem;      /* mezera pod telefonní bublinou */
+}
+
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 0.6rem 1.4rem 0.4rem 1.4rem;
+  border-radius: 999px;
+  background-color: var(--blejsk-blue);
+  color: black;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition:
+    background-color 0.15s ease-out,
+    transform 0.12s ease-out,
+    box-shadow 0.12s ease-out;
+}
+
+/* telefon – speciální bublina NA ŘÁDKU NAD MENU, vpravo */
+.nav-pill--highlight {
+  align-self: flex-end;      /* zarovnání vpravo v rámci .nav-phone */
+  margin-right: 5vw;
+  text-decoration: none;
+  padding: 0.7rem 1.5rem 0.65rem 1.5rem;
+  border-radius: 999px;
+  background-color: var(--blejsk-blue);
+  letter-spacing: 0.03em;
+  color: black;
+  font-size: 1.4rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition:
+    background-color 0.15s ease-out,
+    transform 0.12s ease-out,
+    box-shadow 0.12s ease-out;
+}
+
+.nav-pill:hover,
+.nav-pill--highlight:hover {
+  background-color: var(--blejsk-blue-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== RESPONSIVNÍ NAVBAR ===== */
+
+@media (max-width: 900px) {
+  body {
+    background-color: var(--blejsk-yellow);
+    background-image: url("resources/bg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .section-image {
+    max-width: 80%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;   /* horizontální centrování */
+  }
+
+  .site-nav {
+    padding-inline: 1rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .nav-logo img {
+    height: 20vh;
+    transform: translateX(0rem);
+  }
+
+  .nav-phone {
+    width: 100%;
+  }
+
+  .nav-menu {
+    flex-wrap: wrap;
+    margin-top: 20px;
+    justify-content: center;
+  }
+
+  .nav-pill {
+    padding: 0.45rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .nav-pill--highlight {
+    align-self: center;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-nav {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .section-image {
+    max-width: 80%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;   /* horizontální centrování */
+  }
+
+  .nav-phone {
+    align-items: center;
+  }
+
+  .nav-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* ===== HERO ÚVOD ===== */
+
+.hero {
+  max-width: 1200px;
+  margin: 2rem auto 0;
+  position: relative;
+  min-height: 38vh; 
+}
+
+.hero-main-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* auto vpravo dole – pozice v procentech, škáluje se s šířkou */
+.hero-car-wrapper {
+  position: absolute;
+  right: -50px;        
+  bottom: -4vh;      
+  width: 38vh;        /* velikost auta jako % šířky hero */
+  max-width: 480px;  /* bezpečný limit na velkých monitorech */;
+  margin-right: 20px;
+}
+
+.hero-car-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    position: relative;
+    min-height: 36vh; 
+  }
+
+  .hero-main-image {
+    max-width: 45vw;
+    max-height: 45vh;
+    display: block;
+  }
+
+  /* auto vpravo dole – pozice v procentech, škáluje se s šířkou */
+  .hero-car-wrapper {
+    position: absolute;
+    right: -50px;        
+    bottom: -8vh;      
+    max-width: 18vw;        /* velikost auta jako % šířky hero */
+    max-width: 480px;  /* bezpečný limit na velkých monitorech */;
+    margin-right: 20px;
+  }
+
+  .hero-car-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    position: relative;
+    min-height: 36vh; 
+  }
+
+  .hero-main-image {
+    max-width: 45vw;
+    max-height: 45vh;
+    display: block;
+  }
+
+  /* auto vpravo dole – pozice v procentech, škáluje se s šířkou */
+  .hero-car-wrapper {
+    position: absolute;
+    right: -50px;        
+    bottom: -8vh;      
+    max-width: 18vw;        /* velikost auta jako % šířky hero */
+    max-width: 480px;  /* bezpečný limit na velkých monitorech */;
+    margin-right: 20px;
+  }
+
+  .hero-car-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+
+/* ===== VOUCHER CAROUSEL ===== */
+
+.voucher-carousel {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.voucher-heading {
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+  margin-top: 0;
+  text-shadow: 10px 10px 10px var(--blejsk-yellow), -10px -10px 10px var(--blejsk-yellow);
+}
+
+.voucher-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.voucher-image-wrapper {
+  max-width: 100%;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 3px 12px 25px 3px rgba(0, 0, 0, 0.65);
+  min-height: 260px;                     /* rám má vždy výšku, i před načtením */
+}
+
+.voucher-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Šipky */
+.voucher-arrow {
+  border: none;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 0.12s ease-out,
+    box-shadow 0.12s ease-out,
+    background-color 0.12s ease-out;
+}
+
+.voucher-arrow:hover {
+  transform: translateY(-1px);
+  background: black;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.voucher-arrow--left {
+  margin-right: 0.3rem;
+}
+
+.voucher-arrow--right {
+  margin-left: 0.3rem;
+}
+
+/* Tečky pod carousel */
+.voucher-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.voucher-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  margin: 10px;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.voucher-dot--active {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* responsivní úpravy */
+@media (max-width: 700px) {
+  .voucher-frame {
+    gap: 0.5rem;
+  }
+
+  .voucher-arrow {
+    width: 34px;
+    height: 34px;
+    margin: 10px;
+  }
+
+  .voucher-heading {
+    font-size: 1.8rem;
+  }
+}
+
+/* ANIMACE SLIDOVÁNÍ OBRÁZKU */
+.voucher-slide-right {
+  animation: voucherSlideInRight 200ms ease-out;
+}
+
+.voucher-slide-left {
+  animation: voucherSlideInLeft 200ms ease-out;
+}
+
+@keyframes voucherSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes voucherSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ===== FOOTER ===== */
+
+.footer {
+  background: rgba(255, 255, 255, 0.45);
+  color: rgba(0, 0, 0);
+  padding: 0.2rem 0;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  gap: 4rem;
+  align-items: center;      /* logo/info/links výškově na střed */
+  justify-content: center;  /* 3 sloupce uprostřed */
+  text-align: left;
+}
+
+/* první sloupec – logo */
+.footer-logo img {
+  display: block;
+  height: 135px;
+  width: auto;
+  padding-top: 10px;
+}
+
+/* střední sloupec – info */
+.footer-info h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.footer-info p {
+  margin: 0.3rem 0;
+}
+
+.footer-info a {
+  color: var(--blejsk-yellow-dots);
+  text-decoration: none;
+  font-weight: 700;
+}
+.footer-info a:hover {
+  text-decoration: underline;
+}
+
+/* pravý sloupec – sociální odkazy */
+.footer-links {
+  margin-bottom: 1.4rem;
+}
+
+.footer-links h4 {
+  font-weight: 800;
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  text-decoration: none;
+  color: rgba(0, 0, 0);
+  padding: 0.25rem 0;
+}
+
+.footer-link:hover {
+  color: var(--blejsk-yellow-dots);
+}
+
+/* lepší responsivita */
+@media (max-width: 900px) {
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 0.2rem;
+  }
+  .footer-logo {
+    display: none;
+  }
+
+  .footer-links {
+    margin-bottom: 0rem;
+    text-align: center; 
+  }
+
+  
+  .footer-link {
+    justify-content: center;   /* 🔥 ikona + text spolu uprostřed */
+  }
+}
