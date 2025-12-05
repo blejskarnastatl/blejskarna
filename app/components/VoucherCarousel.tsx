@@ -16,7 +16,7 @@ const vouchers = [
   },
   {
     src: "/poukazy/v1- mrte.svg",
-    alt: "Dárkový poukaz ´DO MRTĚ",
+    alt: "Dárkový poukaz DO MRTĚ",
     title: "DO MRTĚ",
   },
   {
