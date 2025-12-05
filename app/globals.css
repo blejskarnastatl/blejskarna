@@ -150,14 +150,6 @@ body {
 /* ===== RESPONSIVNÍ NAVBAR ===== */
 
 @media (max-width: 900px) {
-  body {
-    background-color: var(--blejsk-yellow);
-    background-image: url("resources/bg.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
   .section-image {
     max-width: 80%;
     height: auto;
@@ -417,6 +409,10 @@ body {
 
 /* responsivní úpravy */
 @media (max-width: 700px) {
+  .voucher-image-wrapper {
+    min-height: 0;
+  }
+
   .voucher-frame {
     gap: 0.5rem;
   }
