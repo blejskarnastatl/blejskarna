@@ -19,8 +19,13 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
   return (
     <div>
       <RowsPhotoAlbum photos={photos} 
-      defaultContainerWidth={1000}  
-      onClick={({ index }) => setIndex(index)}
+        defaultContainerWidth={1000}  
+        onClick={({ index }) => setIndex(index)}
+        componentsProps={{
+        image: {
+          loading: "lazy",
+        },
+      }}
       />
       {index >= 0 && (
         <Lightbox
