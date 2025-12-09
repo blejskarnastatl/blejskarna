@@ -5,6 +5,7 @@ import Image from "next/image";
 const navLinks = [
   { href: "/", label: "O nás" },
   { href: "/jak_k_nam", label: "Jak k nám" },
+  { href: "/fotogalerie", label: "Galerie" },
   { href: "/cenik", label: "Ceník" },
   { href: "/poukazy", label: "Dárkové poukazy" },
 ];

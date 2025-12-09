@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "./components/NavBar";
 import Image from "next/image";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import "react-photo-album/rows.css";
 
 export const metadata: Metadata = {
   title: "Blejskárna Štatl - ruční myčka aut Brno",
