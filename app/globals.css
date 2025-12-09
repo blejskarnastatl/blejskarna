@@ -188,6 +188,7 @@ body {
   .nav-pill--highlight {
     align-self: center;
     font-size: 1.1rem;
+    margin-right: 0vw;
   }
 }
 
