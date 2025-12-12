@@ -13,15 +13,15 @@ export default function JakKNamPage() {
           <ol className="howto-steps">
             <li>
               Chytni si čas blejsku na{" "}
-              <a className="howto-highlight" href="tel:+420601006076">
-                +420 601 006 076
+              <a className="highlight" href="tel:+420601006076">
+                +420&nbsp;601&nbsp;006&nbsp;076
               </a>
               .
             </li>
             <li>Nebo rovnou jeď směr IBC na Příkop 4.</li>
             <li>
               Pokračuj do{" "}
-              <span className="howto-highlight">podzemního parkingu</span> za
+              <span className="highlight">podzemního parkingu</span> za
               závorou.
             </li>
             <li>
