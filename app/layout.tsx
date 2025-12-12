@@ -46,7 +46,7 @@ export default function RootLayout({
         <div className="footer-info">
           <h3>Blejskárna ŠTATL</h3>
           <p>Příkop 4, 602 00 Brno-střed Zábrdovice</p>
-          <p>IČO: 022 67 918 &nbsp; | &nbsp; DIČ: CZ02267918</p>
+          <p>IČO: 02267918 &nbsp; | &nbsp; DIČ: CZ02267918</p>
           <p>
             <a href="mailto:blejskarnastatl@gmail.com">✉️ blejskarnastatl@gmail.com</a>
           </p>
