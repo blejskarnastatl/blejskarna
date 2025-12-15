@@ -1,4 +1,5 @@
 import Image from "next/image";
+import LightboxImage from "../components/LightboxImage";
 
 export default function JakKNamPage() {
   return (
@@ -43,12 +44,12 @@ export default function JakKNamPage() {
 
             {/* FOTO */}
             <div className="howto-photo">
-              <Image
+              <LightboxImage
                 src="/jak_do_blejskarny.png"
                 alt="Blejskárna Štatl - podzemní garáže IBC"
+                width={1200}
+                height={800}
                 className="howto-photoImage"
-                width={500}            
-                height={200}             
               />
             </div>
 
