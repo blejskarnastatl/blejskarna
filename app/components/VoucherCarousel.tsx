@@ -42,7 +42,7 @@ export default function VoucherCarousel() {
 
   return (
     <div className="voucher-carousel">
-      <h1 className="voucher-heading">Dárkové lejstra? Máme.</h1>
+      <h1 className="voucher-heading">Dárkové lajstra? Máme.</h1>
       <p className="voucher-subtext">
         <a href="tel:+420601006076"> Máš vybráno? Volej 👉📞+420 601 006 076</a>
       </p>
