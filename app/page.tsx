@@ -1,5 +1,15 @@
 import Image from "next/image";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blejskárna Štatl - ruční myčka aut Brno",
+  description: "Poctivá ruční šichta na tvý káře, žádnej šolich!",
+  alternates: {
+    canonical: "",
+  },
+};
+
 export default function HomePage() {
   return (
     <div className="page-shell">

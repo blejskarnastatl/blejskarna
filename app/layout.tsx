@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     shortcut: '/LOGO-blejskarna.ico',
     apple: '/LOGO-blejskarna.ico',
   },
+  metadataBase: new URL("https://blejskarna.cz"),
 };
 
 export default function RootLayout({

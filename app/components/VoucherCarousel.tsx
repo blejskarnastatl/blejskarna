@@ -42,11 +42,10 @@ export default function VoucherCarousel() {
 
   return (
     <div className="voucher-carousel">
-      <h2 className="voucher-heading">Dárkové poukazy</h2>
+      <h1 className="voucher-heading">Dárkové lejstra? Máme.</h1>
       <p className="voucher-subtext">
         <a href="tel:+420601006076"> Máš vybráno? Volej 👉📞+420 601 006 076</a>
       </p>
-
        {/* 🔥 skrytý preloader – načte všechny 4 obrázky hned po otevření stránky */}
       <div aria-hidden="true" style={{ height: 0, overflow: "hidden" }}>
         {vouchers.map((v) => (
