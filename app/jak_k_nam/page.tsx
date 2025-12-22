@@ -1,4 +1,3 @@
-import Image from "next/image";
 import LightboxImage from "../components/LightboxImage";
 import type { Metadata } from "next";
 
