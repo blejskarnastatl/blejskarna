@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Jak k nám",
   description: "Dárkové poukazy do Blejskárny - udělejte radost čistým autem.", 
   alternates: {
-    canonical: "/jak-k-nam",
+    canonical: "/jak_k_nam",
   },
 };
 
