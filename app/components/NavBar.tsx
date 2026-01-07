@@ -1,6 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { FaShoppingCart } from "react-icons/fa";
+import { useCart } from "./cart";
+import { useEffect, useState } from "react";
 
 const navLinks = [
   { href: "/", label: "O nás" },
@@ -11,11 +15,17 @@ const navLinks = [
 ];
 
 export default function NavBar() {
+  const { totalQty } = useCart();
+
+  const [mounted, setMounted] = useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setMounted(true), []);
+
+  const qty = mounted ? totalQty : 0;
+
   return (
     <header className="site-nav-wrapper">
       <div className="site-nav">
-
-        {/* Logo vlevo */}
         <div className="nav-logo">
           <Image
             src="/LOGO-blejskarna.svg"
@@ -25,14 +35,23 @@ export default function NavBar() {
           />
         </div>
 
-        {/* Pravá část: telefon + menu */}
         <div className="nav-phone">
-          <a
-            href="tel:+420601006076"
-            className="nav-pill nav-pill--highlight"
-          >
-            Chytni blejsk 📞+420 601 006 076
-          </a>
+          <div className="nav-topRow">
+            <a href="tel:+420601006076" className="nav-pill nav-pill--highlight">
+              Chytni blejsk 📞+420 601 006 076
+            </a>
+
+            <Link href="/kosik" className="cart-pill" aria-label="Košík">
+              <FaShoppingCart />
+              <span
+                className="cart-badge"
+                style={{ display: qty > 0 ? "inline-flex" : "none" }}
+                suppressHydrationWarning
+              >
+                {qty}
+              </span>
+            </Link>
+          </div>
 
           <nav className="nav-menu">
             {navLinks.map((link) => (
@@ -42,7 +61,6 @@ export default function NavBar() {
             ))}
           </nav>
         </div>
-
       </div>
     </header>
   );

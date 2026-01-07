@@ -17,7 +17,7 @@ export default function HomePage() {
         <div className="hero-inner">
           {/* hlavní ilustrace vlevo / nahoře */}
           <Image
-            src="/BLEJSKARNA uvod.svg"       // přejmenuj podle sebe
+            src="/BLEJSKARNA uvod.svg"       
             alt="Blejskárna Štatl ilustrace"
             width={900}
             height={800}
@@ -27,7 +27,7 @@ export default function HomePage() {
           {/* auto vpravo dole */}
           <div className="hero-car-wrapper">
             <Image
-              src="/ilustration.svg"     // přejmenuj podle sebe
+              src="/ilustration.svg"    
               alt="Blejskárna auto"
               width={600}
               height={400}
