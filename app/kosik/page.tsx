@@ -23,12 +23,13 @@ export default function KosikPage() {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [delivery, setDelivery] = useState<"email" | "pickup">("email");
   const [email, setEmail] = useState("");
   const [email2, setEmail2] = useState("");
 
   const normalized = useMemo(() => {
     return items.map((it) => {
-      const v = voucherById[it.voucherId];
+      const voucher = voucherById[it.voucherId];
       const is_NAPRANI = it.voucherId === NAPRANI_VOUCHER_ID;
 
       const unitPrice = is_NAPRANI
@@ -40,9 +41,9 @@ export default function KosikPage() {
       return {
         cartItemId: it.cartItemId,
         voucherId: it.voucherId,
-        title: v?.title ?? it.voucherId,
-        src: v?.src,
-        alt: v?.alt ?? v?.title ?? it.voucherId,
+        title: voucher?.title,
+        src: voucher?.src,
+        alt: voucher.alt,
         isWish: is_NAPRANI,
         qty,
         unitPriceCzk: unitPrice,
@@ -92,9 +93,6 @@ export default function KosikPage() {
     <div className="cart-page">
       <div className="cart-head">
         <h1 className="cart-title">Košík</h1>
-        <p className="cart-subtitle">
-          Poukazy jsou <strong>digitální</strong> – po odeslání objednávky se ti ozveme s platebními instrukcemi a po úhradě doručíme poukazy na e-mail.
-        </p>
       </div>
 
       <div className="cart-grid">
@@ -267,7 +265,7 @@ export default function KosikPage() {
             </label>
 
             <label className="cart-field">
-              <span>E-mail znovu (pro kontrolu) *</span>
+              <span>E-mail znovu *</span>
               <input
                 value={email2}
                 onChange={(e) => setEmail2(e.target.value)}
@@ -279,16 +277,49 @@ export default function KosikPage() {
               )}
             </label>
 
+            <div className="cart-delivery">
+              <h3>Doručení poukazu</h3>
+
+              <label className="cart-radio">
+                <input
+                  type="radio"
+                  name="delivery"
+                  value="email"
+                  checked={delivery === "email"}
+                  onChange={() => setDelivery("email")}
+                />
+                <span>Chci zaslat elektronický voucher na e-mail</span>
+              </label>
+
+              <label className="cart-radio">
+                <input
+                  type="radio"
+                  name="delivery"
+                  value="pickup"
+                  checked={delivery === "pickup"}
+                  onChange={() => setDelivery("pickup")}
+                />
+                <span>Poukaz si vyzvednu v Blejskárně</span>
+              </label>
+            </div>
+
+            {delivery === "pickup" && (
+              <div className="cart-note">
+                Poukazy není třeba objednávat dopředu, jsou k dostání přímo v Blejskárně - stačí přijít během otevírací doby, případně zavolat.
+              </div>
+            )}
+
+
             <div className="cart-instructions">
               <h3>Jak to probíhá</h3>
               <ol>
-                <li>Vybereš poukazy a vyplníš kontakt.</li>
-                <li>Po odeslání objednávky se ti ozveme s platebními instrukcemi.</li>
-                <li>Po úhradě doručíme digitální poukazy na tvůj e-mail.</li>
+                <li>Vybereš poukaz(y), případně navolíš množství a hodnotu, vyplníš kontakt.</li>
+                <li>Po odeslání objednávky ti dorazí mail s QR kódem pro zaplacení.</li>
+                <li>{" "}{delivery === "email" ? "Jakmile platbu obdržíme, elektronické poukazy ti doručíme na e-mail."
+                    : "Po zaplacení se pro poukazy můžeš stavit kdykoliv během otevírací doby, nebo nám crnknni a nějak se domluvíme."}
+                </li>
+
               </ol>
-              <p className="cart-note">
-                (Teď je to nastavené hlavně na test workflow — objednávka se uloží a ukáže na stránce „Děkujeme“.)
-              </p>
             </div>
 
             <button type="button" className="cart-submit" disabled={!canSubmit} onClick={submit}>
@@ -297,7 +328,7 @@ export default function KosikPage() {
 
             {!canSubmit && (
               <div className="cart-submitHint">
-                Doplň prosím povinná pole a zkontroluj shodu e-mailů. Košík nesmí být prázdný.
+                Doplň prosím povinná pole a překontroluj shodu e-mailů. Košík nesmí být prázdný.
               </div>
             )}
 

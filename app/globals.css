@@ -16,6 +16,8 @@
   --blejsk-yellow-dots: #a16b15;  /* tmavší žlutá pro puntíky */
   --blejsk-blue: #38b6ff;         /* modré bubliny menu */
   --blejsk-blue-hover: #0d99ff;
+  --blejsk-red: #c62828;
+  --blejsk-red-bg: rgba(198, 40, 40, 0.08);
 }
 
 /* ===== ZÁKLAD STRÁNKY – POZADÍ ===== */
@@ -910,7 +912,7 @@ body {
   max-width: 1100px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
@@ -1114,9 +1116,11 @@ body {
 }
 
 .cart-note {
-  margin: 0.35rem 0 0 0;
   opacity: 0.9;
+  font-weight: 650;
+  margin-top: 0.2rem;
 }
+
 
 .cart-noteLink {
   font-weight: 900;
@@ -1171,4 +1175,302 @@ body {
   .cart-formRow2 {
     grid-template-columns: 1fr;
   }
+}
+
+/* ===== KOŠÍK – finální polish (vlož na konec globals.css) ===== */
+
+.cart-page, .cart-page * { box-sizing: border-box; }
+
+/* Hlavička košíku */
+.cart-head {
+  margin-bottom: 0.75rem;
+}
+
+.cart-title {
+  letter-spacing: 0.02em;
+  text-shadow: 10px 10px 10px var(--blejsk-yellow), -10px -10px 10px var(--blejsk-yellow);
+}
+
+/* Karty – trochu víc “premium” */
+.cart-card {
+  border-radius: 22px;
+  padding: 1.1rem;
+  box-shadow: 0 8px 0 rgba(0,0,0,0.85);
+}
+
+/* Grid */
+.cart-grid {
+  align-items: start;
+  gap: 1.1rem;
+}
+
+/* ===== ŘÁDKY POLOŽEK ===== */
+
+/* Stabilní layout řádku: vlevo obsah, vpravo ovládání */
+.cart-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.85rem;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.78);
+  border: 2px solid rgba(0,0,0,0.12);
+}
+
+/* Levá část: aby text nikdy nepřetékal */
+.cart-itemLeft { min-width: 0; }
+.cart-itemMeta { min-width: 0; }
+
+/* Název se zkrátí */
+.cart-itemTitle {
+  font-weight: 950;
+  font-size: 1.15rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Thumb */
+.cart-thumb {
+  border-radius: 14px;
+  border: 2px solid rgba(0,0,0,0.18);
+  background: #fff;
+}
+
+/* Odebrat – ať je to nenápadné, ale “kliknutelné” */
+.cart-removeBtn {
+  text-decoration: underline;
+  font-weight: 800;
+  opacity: 0.85;
+}
+.cart-removeBtn:hover {
+  opacity: 1;
+}
+
+/* ===== Pravý sloupec: qty + mezisoučet ===== */
+.cart-right {
+  display: grid;
+  justify-items: end;
+  gap: 0.6rem;
+  min-width: 220px;
+}
+
+/* qty pill */
+.cart-qtyCtl {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.65);
+  border: 2px solid rgba(0,0,0,0.10);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+.cart-qtyCtl button {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 2px solid rgba(0,0,0,0.85);
+  background: #fff;
+  font-weight: 950;
+  cursor: pointer;
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+}
+.cart-qtyCtl button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.22);
+}
+
+.cart-qtyInput {
+  width: 58px;
+  height: 36px;
+  border-radius: 999px;
+  border: 2px solid rgba(0,0,0,0.18);
+  text-align: center;
+  font-weight: 950;
+  background: #fff;
+}
+
+/* Mezisoučet jako pill – aby nebyl “nalepený” */
+.cart-lineTotal {
+  width: 220px;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.65);
+  border: 2px solid rgba(0,0,0,0.10);
+  font-weight: 950;
+}
+.cart-lineTotal span {
+  opacity: 0.8;
+  font-weight: 800;
+}
+
+/* ===== Cena na přání ===== */
+.cart-wishPrice {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.35rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.65);
+  border: 2px solid rgba(0,0,0,0.10);
+}
+
+/* Tvoje label struktura: .cart-fieldInline */
+.cart-fieldInline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.cart-fieldInline span {
+  font-weight: 900;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.cart-priceInput {
+  width: 104px;
+  height: 34px;
+  border-radius: 999px;
+  border: 2px solid rgba(0,0,0,0.18);
+  text-align: center;
+  font-weight: 950;
+  background: #fff;
+}
+
+/* ===== Souhrn ===== */
+.cart-summary {
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 2px dashed rgba(0,0,0,0.25);
+}
+.cart-summaryRow {
+  font-size: 1.18rem;
+}
+.cart-summaryRow strong {
+  font-weight: 950;
+}
+
+/* ===== Formulář ===== */
+.cart-form {
+  gap: 0.9rem;
+}
+
+/* Jméno/Příjmení pod sebe (už chceš) */
+.cart-formRow2 { grid-template-columns: 1fr; }
+
+.cart-field span {
+  font-weight: 950;
+  margin-bottom: 0.35rem;
+}
+
+.cart-field input {
+  width: 100%;
+  max-width: 100%;
+  height: 46px;
+  border-radius: 14px;
+  border: 2px solid rgba(0,0,0,0.18);
+  padding: 0 0.85rem;
+  background: #fff;
+  font-weight: 800;
+}
+
+/* Error text – ať je čitelnější */
+.cart-fieldError {
+  margin-top: 0.3rem;
+  font-weight: 900;
+  opacity: 0.9;
+}
+
+/* ===== Doručení (radio box) ===== */
+.cart-delivery {
+  border-radius: 16px;
+  background: rgba(0,0,0,0.05);
+  padding: 0.9rem;
+  border: 2px solid rgba(0,0,0,0.10);
+  display: grid;
+  gap: 0.65rem;
+}
+
+.cart-delivery h3 {
+  margin: 0;
+  font-weight: 950;
+  font-size: 1.2rem;
+}
+
+.cart-radio {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  font-weight: 800;
+}
+
+.cart-radio input {
+  margin-top: 0.22rem;
+  transform: scale(1.15);
+}
+
+/* ===== Instrukce ===== */
+.cart-instructions {
+  border-radius: 16px;
+  background: rgba(0,0,0,0.05);
+  padding: 0.9rem;
+  border: 2px solid rgba(0,0,0,0.10);
+}
+
+.cart-instructions h3 {
+  margin: 0 0 0.4rem 0;
+  font-weight: 950;
+}
+
+.cart-instructions ol {
+  margin: 0.35rem 0 0 1.1rem;
+}
+.cart-instructions li {
+  margin: 0.25rem 0;
+}
+
+/* Submit button */
+.cart-submit {
+  height: 54px;
+  border-radius: 999px;
+  font-weight: 950;
+}
+.cart-submit:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+/* ===== Mobil: řádek položky pod sebe ===== */
+@media (max-width: 700px) {
+  .cart-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .cart-right {
+    min-width: 0;
+    width: 100%;
+    justify-items: stretch;
+  }
+
+  .cart-lineTotal {
+    width: 100%;
+  }
+}
+
+.text-error {
+  color: var(--blejsk-red);
+  font-weight: 900;
+}
+
+.input-error {
+  border-color: var(--blejsk-red) !important;
+  background: var(--blejsk-red-bg);
 }
