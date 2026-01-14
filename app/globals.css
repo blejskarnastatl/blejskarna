@@ -13,10 +13,11 @@
 
 :root {
   --blejsk-yellow: #ffcc00;       /* základní žlutá */
-  --blejsk-yellow-dots: #a16b15;  /* tmavší žlutá pro puntíky */
-  --blejsk-blue: #38b6ff;         /* modré bubliny menu */
-  --blejsk-blue-hover: #0d99ff;
-  --blejsk-red: #c62828;
+  --blejsk-yellow-dots: #b28e00;  /* tmavší žlutá pro puntíky */
+  --blejsk-blue: #6DD3FF;         /* modré bubliny menu */
+  --blejsk-blue-hover: rgb(78, 195, 245);
+  --blejsk-blue-border: rgb(45, 129, 165);
+  --blejsk-red: #F95738;
   --blejsk-red-bg: rgba(198, 40, 40, 0.08);
 }
 
@@ -51,7 +52,10 @@ body {
   width: 100%;
 }
 
+/* místo width:100% sem dej tohle: */
 .page-shell > * {
+  flex: 1 1 auto;
+  min-width: 0;   /* 🔥 klíčové: povolí smrštění ve flexu */
   width: 100%;
 }
 
@@ -447,7 +451,8 @@ body {
   padding: 0.9rem 1.1rem;
   background: var(--blejsk-blue);
   color: #000;
-  font-weight: 800;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
   box-shadow: 0 6px 16px rgba(0,0,0,0.25);
   transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
@@ -603,6 +608,134 @@ body {
     transform: translateX(0);
   }
 }
+
+/* ===== MODAL – přidáno do košíku (vložit na konec globals.css) ===== */
+
+.cart-modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.55);
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+}
+
+.cart-modalCard {
+  width: min(560px, 92vw);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 22px;
+  padding: 1.1rem 1.1rem 1rem;
+  box-shadow: 1px 5px 3px rgba(0,0,0,0.85);
+  border: 2px solid rgba(0,0,0,0.12);
+  position: relative;
+  animation: cartModalPop 160ms ease-out;
+}
+
+@keyframes cartModalPop {
+  from { transform: translateY(10px) scale(0.98); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.cart-modalClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 2px solid rgba(45, 129, 165,0.15);
+  background: rgba(255,255,255,0.85);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 14px rgba(45, 129, 165,0.12);
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+}
+
+.cart-modalClose:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+}
+
+.cart-modalHead {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  padding-right: 52px; /* aby text nelezl pod křížek */
+}
+
+.cart-modalIcon {
+  width: 52px;
+  height: 52px;
+  color: var(--blejsk-blue-hover);
+  font-size: 1.55rem;
+  border-radius: 16px;
+  background: rgba(0,0,0,0.06);
+  display: grid;
+  place-items: center;
+  border: 2px solid rgba(0,0,0,0.08);
+}
+
+.cart-modalTitle {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+}
+
+.cart-modalTitle .icon {
+  transform: translateY(3px); 
+}
+
+.cart-modalText {
+  margin: 0.25rem 0 0;
+  font-weight: 700;
+  opacity: 0.8;
+}
+
+.cart-modalActions {
+  margin-top: 1.1rem;
+  display: flex;
+  gap: 0.7rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.cart-modalBtn {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.75rem 1.05rem;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+}
+
+.cart-modalBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+}
+
+.cart-modalBtn--ghost {
+  background: rgba(255,255,255,0.85);
+  border: 2px solid var(--blejsk-blue-hover);
+}
+
+.cart-modalBtn--primary {
+  background: var(--blejsk-blue-hover);
+  color: #000;
+}
+
+@media (max-width: 520px) {
+  .cart-modalActions {
+    justify-content: stretch;
+  }
+  .cart-modalBtn {
+    width: 100%;
+  }
+}
+
 
 /* ===== FOOTER ===== */
 
@@ -916,13 +1049,6 @@ body {
   gap: 1rem;
 }
 
-.cart-card {
-  background: rgba(255, 255, 255, 0.92);
-  border-radius: 18px;
-  padding: 1rem;
-  box-shadow: 0 6px 0 rgba(0,0,0,0.85);
-}
-
 .cart-cardHead {
   display: flex;
   align-items: baseline;
@@ -1013,6 +1139,7 @@ body {
 .cart-removeBtn {
   background: transparent;
   border: none;
+  text-align: start;
   padding: 0;
   cursor: pointer;
   text-decoration: underline;
@@ -1092,12 +1219,6 @@ body {
   font-weight: 700;
 }
 
-.cart-fieldError {
-  margin-top: 0.25rem;
-  font-weight: 800;
-  font-size: 0.95rem;
-}
-
 .cart-instructions {
   border-radius: 14px;
   background: rgba(0,0,0,0.06);
@@ -1116,9 +1237,9 @@ body {
 }
 
 .cart-note {
-  opacity: 0.9;
-  font-weight: 650;
+  font-weight: 400;
   margin-top: 0.2rem;
+  color: var(--blejsk-blue-hover);
 }
 
 
@@ -1151,6 +1272,7 @@ body {
 
 .cart-back a {
   text-decoration: underline;
+  color: var(--blejsk-blue-hover);
   font-weight: 800;
 }
 
@@ -1170,10 +1292,10 @@ body {
 
 @media (max-width: 900px) {
   .cart-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 0.93fr;
   }
   .cart-formRow2 {
-    grid-template-columns: 1fr;
+    grid-template-columns: 0.93fr;
   }
 }
 
@@ -1193,9 +1315,10 @@ body {
 
 /* Karty – trochu víc “premium” */
 .cart-card {
+  background: rgba(255, 255, 255, 0.92);
   border-radius: 22px;
   padding: 1.1rem;
-  box-shadow: 0 8px 0 rgba(0,0,0,0.85);
+  box-shadow: 1px 5px 3px rgba(0,0,0,0.85);
 }
 
 /* Grid */
@@ -1238,12 +1361,6 @@ body {
   background: #fff;
 }
 
-/* Odebrat – ať je to nenápadné, ale “kliknutelné” */
-.cart-removeBtn {
-  text-decoration: underline;
-  font-weight: 800;
-  opacity: 0.85;
-}
 .cart-removeBtn:hover {
   opacity: 1;
 }
@@ -1295,11 +1412,10 @@ body {
 
 /* Mezisoučet jako pill – aby nebyl “nalepený” */
 .cart-lineTotal {
-  width: 220px;
+  width: 190px;
   display: flex;
   justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.5rem 0.8rem;
+  padding: 0.3rem 0.8rem;
   border-radius: 999px;
   background: rgba(255,255,255,0.65);
   border: 2px solid rgba(0,0,0,0.10);
@@ -1315,35 +1431,39 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  margin-top: 0.35rem;
   padding: 0.35rem 0.6rem;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.65);
-  border: 2px solid rgba(0,0,0,0.10);
 }
 
-/* Tvoje label struktura: .cart-fieldInline */
+/* inline label pro cenu na přání */
 .cart-fieldInline {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.4rem;
 }
+
 .cart-fieldInline span {
-  font-weight: 900;
-  opacity: 0.9;
-  white-space: nowrap;
+  font-weight: 700;
+  font-size: 0.95rem;
+  opacity: 0.85;
 }
 
+/* menší / decentnější pole pro cenu */
 .cart-priceInput {
-  width: 104px;
-  height: 34px;
-  border-radius: 999px;
-  border: 2px solid rgba(0,0,0,0.18);
-  text-align: center;
-  font-weight: 950;
+  width: 80px;
+  height: 25px;
+  padding: 0 0.5rem;
+  border-radius: 10px;
+  border: 2px solid rgba(0,0,0,0.15);
   background: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: right;
+  outline: none;
 }
 
+.cart-priceInput:focus {
+  border-color: rgba(0,0,0,0.35);
+}
 /* ===== Souhrn ===== */
 .cart-summary {
   margin-top: 1rem;
@@ -1366,7 +1486,7 @@ body {
 .cart-formRow2 { grid-template-columns: 1fr; }
 
 .cart-field span {
-  font-weight: 950;
+  font-weight: 750;
   margin-bottom: 0.35rem;
 }
 
@@ -1378,14 +1498,7 @@ body {
   border: 2px solid rgba(0,0,0,0.18);
   padding: 0 0.85rem;
   background: #fff;
-  font-weight: 800;
-}
-
-/* Error text – ať je čitelnější */
-.cart-fieldError {
-  margin-top: 0.3rem;
-  font-weight: 900;
-  opacity: 0.9;
+  font-weight: 700;
 }
 
 /* ===== Doručení (radio box) ===== */
@@ -1465,6 +1578,12 @@ body {
   }
 }
 
+.cart-field span {
+  display: inline-flex;      /* místo block */
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
 .text-error {
   color: var(--blejsk-red);
   font-weight: 900;
@@ -1473,4 +1592,342 @@ body {
 .input-error {
   border-color: var(--blejsk-red) !important;
   background: var(--blejsk-red-bg);
+}
+
+.cart-fieldError {
+  margin-top: 0.25rem;
+  margin-left: 0.75rem;
+  font-weight: 500;
+  color: var(--blejsk-red);
+  font-size: 0.95rem;
+}
+
+.required {
+  color: var(--blejsk-red);
+  font-weight: 950;
+  line-height: 1;
+}
+
+strong {
+  font-weight: 600;
+}
+
+/* ===== DĚKUJEME – ONE CARD RECEIPT (REWORK) ===== */
+
+.thanks-wrap {
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.thanks-card {
+  width: min(860px, 100%);
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 22px;
+  padding: 1.15rem;
+  box-shadow: 1px 5px 3px rgba(0,0,0,0.85);
+  border: 2px solid rgba(0,0,0,0.10);
+}
+
+/* Header */
+.thanks-head {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 0.9rem;
+  align-items: start;
+}
+
+.thanks-badge {
+  padding: 0.3rem;
+  font-size: 2.5rem;
+  color: var(--blejsk-blue-hover);
+}
+
+.thanks-headText {
+  min-width: 0;
+  margin-top: 0.25rem;
+}
+
+.thanks-title {
+  margin: 0.05rem 0 0.35rem;
+  font-size: 2rem;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+}
+
+/* Order line – žádná pilulka */
+.thanks-orderLine {
+  margin: 0;
+  font-weight: 900;
+  opacity: 0.92;
+}
+
+.thanks-orderLine span {
+  opacity: 0.75;
+  font-weight: 850;
+}
+
+.thanks-subtitle {
+  margin: 0.55rem 0 0;
+  font-weight: 700;
+  opacity: 0.85;
+  line-height: 1.35;
+}
+
+/* Meta – label nad hodnotou = čitelnost */
+.thanks-meta {
+  display: grid;
+  gap: 0.6rem;
+  margin-left: 1.4rem;
+  padding: 0.7rem;
+}
+
+.thanks-metaRow {
+  display: grid;
+  gap: 0.12rem;
+}
+
+.thanks-metaRow span {
+  font-size: 0.95rem;
+  opacity: 0.7;
+  font-weight: 750;
+}
+
+.thanks-metaRow strong {
+  font-size: 1.08rem;
+  font-weight: 750;
+  line-height: 1.15;
+  word-break: break-word;
+}
+
+/* Sections */
+.thanks-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 2px dashed rgba(0,0,0,0.22);
+}
+
+.thanks-h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.35rem;
+  font-weight: 950;
+}
+
+/* Items */
+.thanks-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 25px;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.thanks-itemRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.75rem 0.85rem;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.70);
+  border: 2px solid rgba(0,0,0,0.08);
+}
+
+.thanks-itemLeft {
+  min-width: 0;
+}
+
+.thanks-itemTitle {
+  font-weight: 950;
+  line-height: 1.1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.thanks-itemSub {
+  font-weight: 750;
+  opacity: 0.75;
+  margin-top: 0.15rem;
+}
+
+.thanks-itemRight {
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+/* Totals */
+.thanks-totals {
+  margin-top: 0.85rem;
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.85rem;
+}
+
+.thanks-totalRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: 900;
+  font-size: 1.05rem;
+}
+
+.thanks-totalRow span {
+  opacity: 0.8;
+  font-weight: 850;
+}
+
+.thanks-totalRow--big {
+  font-size: 1.25rem;
+}
+
+.thanks-totalRow--big strong {
+  font-weight: 950;
+}
+
+/* Payment */
+.thanks-payBox {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+}
+
+.thanks-qrCol {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+}
+
+.thanks-qr {
+  width: 240px;
+  max-width: 78vw;
+  height: auto;
+  border-radius: 14px;
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.12);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.thanks-qrLink {
+  font-weight: 900;
+  text-decoration: underline;
+  color: var(--blejsk-blue-hover);
+}
+
+.thanks-payMeta {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.thanks-payRow {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 14px;
+}
+
+.thanks-payRow span {
+  font-size: 0.95rem;
+  opacity: 0.7;
+  font-weight: 750;
+}
+
+.thanks-payRow strong {
+  font-weight: 750;
+  word-break: break-word;
+}
+
+/* What next */
+.thanks-next {
+  padding: 0 0 0 0.95rem;
+  font-weight: 800;
+}
+
+.thanks-next p {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.thanks-infoIcon {
+  display: inline-block;
+  vertical-align: -3px;
+  margin-right: 0.5rem;
+  color: var(--blejsk-blue-hover);
+}
+
+.thanks-nextMuted {
+  margin-top: 0.6rem !important;
+  color: var(--blejsk-blue-hover);
+  opacity: 0.85;
+  font-weight: 700;
+}
+
+/* Actions */
+.thanks-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.7rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.thanks-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.75rem 1.05rem;
+  font-weight: 950;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+}
+
+.thanks-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+}
+
+.thanks-btn--ghost {
+  background: rgba(255,255,255,0.85);
+  border: 2px solid var(--blejsk-blue-hover);
+  color: #000;
+}
+
+.thanks-btn--primary {
+  background: var(--blejsk-blue-hover);
+  color: #000;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .thanks-head {
+    grid-template-columns: 1fr;
+  }
+
+  .thanks-badge {
+    width: 52px;
+    height: 52px;
+  }
+
+  .thanks-payBox {
+    grid-template-columns: 1fr;
+  }
+
+  .thanks-itemTitle {
+    white-space: normal;
+  }
+
+  .thanks-actions {
+    justify-content: stretch;
+  }
+
+  .thanks-btn {
+    width: 100%;
+  }
 }
