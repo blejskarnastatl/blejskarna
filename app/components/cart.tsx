@@ -26,7 +26,7 @@ type CartContextValue = {
   items: CartItem[];
   totalQty: number;
 
-  addItem: (item: { id: VoucherId }, qty: number) => void;
+  addItem: (item: { id: VoucherId, unitPrice:number }, qty: number) => void;
   setQty: (cartItemId: string, qty: number) => void;
   setUnitPrice: (cartItemId: string, unitPriceCzk: number) => void;
   removeItem: (cartItemId: string) => void;
@@ -54,23 +54,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addItem: CartContextValue["addItem"] = (item, qty = 1) => {
     const voucherId = item.id;
+    const unitPriceCZK = item.unitPrice;
 
     setItems((prev) => {
       const voucher = voucherById[voucherId];
-      const defaultPrice = (voucher as Voucher)?.price ?? 0;
+      const defaultPrice = unitPriceCZK ?? (voucher as Voucher)?.price ?? 0;
 
-      // 1) Přání: každý kus jako vlastní řádek
+      // 1) Přání: každé vložení do košíku jako nový řádek
       if (voucherId === PRANI_VOUCHER_ID) {
         const n = Math.max(1, Math.floor(qty));
-
-        const newLines = Array.from({ length: n }, () => ({
-          cartItemId: makeCartItemId(),
-          voucherId,
-          qty: 1,
-          unitPriceCzk: defaultPrice,
-        }));
-
-        return [...prev, ...newLines];
+        return [
+          ...prev,
+          {
+            cartItemId: makeCartItemId(),
+            voucherId,
+            qty: Math.max(1, qty),
+            unitPriceCzk: defaultPrice,
+          },
+        ];
       }
 
       // 2) Ostatní poukazy: slučuj do jedné řádky (pro stejné voucherId)

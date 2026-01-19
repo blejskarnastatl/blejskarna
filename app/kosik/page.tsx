@@ -4,14 +4,8 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/app/components/cart";
-import { voucherById, VoucherId } from "@/app/data/vouchers";
+import { NAPRANI_MAX, NAPRANI_MIN, NAPRANI_STEP, NAPRANI_VOUCHER_ID, voucherById, VoucherId, vouchers} from "@/app/data/vouchers";
 import { FaCircleInfo } from "react-icons/fa6";
-
-const NAPRANI_VOUCHER_ID = "PRANI" as VoucherId;
-
-const NAPRANI_MIN = 200;
-const NAPRANI_MAX = 10000;
-const NAPRANI_STEP = 100;
 
 const czk = new Intl.NumberFormat("cs-CZ", {
   style: "currency",

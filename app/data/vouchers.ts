@@ -12,3 +12,8 @@ export type VoucherId = Voucher["id"];
 export const voucherById = Object.fromEntries(
   vouchers.map((v) => [v.id, v]),
 ) as Record<VoucherId, Voucher>;
+
+export const NAPRANI_VOUCHER_ID = "PRANI" as VoucherId;
+export const NAPRANI_MIN = 200;
+export const NAPRANI_MAX = 10000;
+export const NAPRANI_STEP = 100;
