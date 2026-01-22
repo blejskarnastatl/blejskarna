@@ -1,0 +1,311 @@
+/* ===== NAVBAR (CSS Modules) ===== */
+
+.siteNavWrapper {
+  padding-block: 0.75rem;
+}
+
+.siteNav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.navLogo :global(img) {
+  height: clamp(150px, 25vw, 230px);
+  width: auto;
+}
+
+.navPhone {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; 
+  gap: 0.4rem;
+  flex: 1;
+  margin-right: 0.5rem;
+}
+
+.navTopRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "phone actions";
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.topActions {
+  grid-area: actions;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-self: end;
+}
+
+.navPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 0.6rem 1.4rem 0.4rem 1.4rem;
+  border-radius: 999px;
+  background-color: var(--blejsk-blue);
+  color: black;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.15s ease-out, transform 0.12s ease-out,
+    box-shadow 0.12s ease-out;
+}
+
+/* telefon jako varianta pillu */
+.navPillHighlight {
+  display: inline-block;
+  justify-items: center; 
+  align-content: center;   
+  justify-self: end;
+  font-weight: 650;
+  font-size: var(--font-size-lg);
+  padding: 0.7rem 1.5rem 0.65rem 1.5rem;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* hover + focus */
+.navPill:hover,
+.navPill:focus-visible {
+  background-color: var(--blejsk-blue-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* cart */
+.cartPill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  height: 50px;
+  width: 50px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+}
+
+.cartPill :global(svg) {
+  width: 1em;
+  height: 1em;
+  display: block;
+}
+
+.cartBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(45%, -45%);
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #fff;
+  color: #000;
+  font-weight: 900;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(0, 0, 0, 0.85);
+}
+
+/* hamburger button */
+.menuButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 50px;
+  width: 50px;
+  border-radius: 999px;
+  border: 0;
+
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.menuButton:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+.menuIcon {
+  font-size: 26px;
+  line-height: 1;
+}
+
+/* backdrop */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 40;
+}
+
+/* MENU: mobile drawer (default je zavřené) */
+.navMenu {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+
+  top: 110px; /* případně doladíme podle výšky headeru */
+  width: min(520px, calc(100vw - 2rem));
+
+  display: grid;
+  gap: 0.5rem;
+
+  padding: 0.85rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(10px);
+
+  z-index: 50;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.navMenuOpen {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* menu položky na mobilu jako řádky */
+.navMenu .navPill {
+  justify-content: flex-start;
+  border-radius: 14px;
+  padding: 0.85rem 0.9rem;
+  white-space: normal;
+}
+
+/* telefon CTA blok */
+.phoneCta {
+  margin-top: 0.5rem;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+.phoneNumber, .phoneText {
+  white-space: nowrap;     /* číslo se nikdy nerozbije */
+}
+
+/* DESKTOP: hamburger schovej a menu zobraz horizontálně (bez overlay) */
+@media (min-width: 980px) {
+  .menuButton {
+    display: none;
+  }
+
+  .backdrop {
+    display: none;
+  }
+
+  .navMenu {
+    position: static;
+    transform: none;
+    width: auto;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    backdrop-filter: none;
+
+    opacity: 1;
+    pointer-events: auto;
+
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+
+    margin-top: 1.75rem;
+  }
+
+  .navMenu .navPill {
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 999px;
+    padding: 0.6rem 1.4rem 0.4rem 1.4rem;
+  }
+
+  .navPhone {
+    align-items: stretch;
+  }
+
+  .navTopRow {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .phoneCta {
+    margin-top: 0;
+    width: auto;
+    justify-content: center;
+    align-self: flex-end;
+
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 800px) {
+  .navTopRow {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "actions"
+      "phone";
+    justify-items: end;
+  }
+
+  .navPillHighlight {
+    justify-self: end;      
+    width: fit-content;      
+    max-width: 65vw;
+    white-space: normal; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
+  .topActions {
+    justify-self: end;
+  }
+}
+
+@media (max-width: 650px) {
+  .navPillHighlight {
+    display: inline-grid;
+    grid-auto-flow: row;
+    justify-items: center;
+    align-content: center;
+    width: fit-content;
+    white-space: normal;
+    font-size: var(--font-size-base);
+  }
+}

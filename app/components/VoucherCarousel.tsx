@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { vouchers } from "@/app/data/vouchers";
-
+import styles from "../poukazy/VoucherCarousel.module.css";
 
 export default function VoucherCarousel({
   index,
@@ -41,10 +41,10 @@ export default function VoucherCarousel({
         ))}
       </div>
 
-      <div className="voucher-frame">
+      <div className={styles.frame}>
         <button
           type="button"
-          className="voucher-arrow voucher-arrow--left"
+          className={`${styles.arrow} ${styles.arrowLeft}`}
           onClick={prev}
           aria-label="Předchozí poukaz"
         >
@@ -53,23 +53,22 @@ export default function VoucherCarousel({
 
         <div
           key={index}
-          className={
-            "voucher-image-wrapper " +
-            (direction === "right" ? "voucher-slide-right" : "voucher-slide-left")
-          }
+          className={`${styles.imageWrapper} ${
+            direction === "right" ? styles.slideRight : styles.slideLeft
+          }`}
         >
           <Image
             src={vouchers[index].src}
             alt={vouchers[index].alt}
             width={750}
             height={400}
-            className="voucher-image"
+            className={styles.image}
           />
         </div>
 
         <button
           type="button"
-          className="voucher-arrow voucher-arrow--right"
+          className={`${styles.arrow} ${styles.arrowRight}`}
           onClick={next}
           aria-label="Další poukaz"
         >
@@ -77,12 +76,12 @@ export default function VoucherCarousel({
         </button>
       </div>
 
-      <div className="voucher-dots">
+      <div className={styles.dots}>
         {vouchers.map((v, i) => (
           <button
             key={v.title}
             type="button"
-            className={"voucher-dot" + (i === index ? " voucher-dot--active" : "")}
+            className={`${styles.dot} ${i === index ? styles.dotActive : ""}`}
             onClick={() => {
               if (i > index) onDirectionChange("right");
               if (i < index) onDirectionChange("left");

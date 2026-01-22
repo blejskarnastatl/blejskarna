@@ -1,0 +1,106 @@
+/* app/layout.module.css */
+
+.body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, 1.75rem);
+}
+
+.main {
+  flex: 1;
+  padding-block: 1rem;
+}
+
+/* ---- Footer ---- */
+
+.footer {
+  background: rgba(255, 255, 255, 0.45);
+  color: rgba(0, 0, 0);
+  padding: 0.2rem 0;
+}
+
+.footerInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  justify-content: center; 
+  text-align: left;
+}
+
+.footerLogo {
+  display: block;
+  height: 135px;
+  width: auto;
+  padding-top: 10px;
+}
+
+/* střední sloupec – info */
+
+.footerInfo h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.footerInfo p {
+  margin: 0.2rem 0;
+}
+
+.footerInfo a {
+  color: var(--blejsk-yellow-dots);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* pravý sloupec – sociální odkazy */
+.footerLinks {
+  margin-bottom: 1.4rem;
+}
+
+.footerLinks h4 {
+  font-weight: 800;
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.footerLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  text-decoration: none;
+  color: rgba(0, 0, 0);
+  padding: 0.25rem 0;
+}
+
+.footerLink:hover {
+  color: var(--blejsk-yellow-dots);
+}
+
+/* --- Responsivita footeru --- */
+@media (max-width: 900px) {
+  .footer {
+    padding: 0;
+  }
+
+  .footerInner {
+    gap: 2.2rem;
+  }
+
+  .footerLogo {
+    display: none;
+  }
+
+  .footer {
+    padding: 0;
+  }
+}

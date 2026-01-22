@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "./NavBar.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { FaShoppingCart } from "react-icons/fa";
@@ -23,41 +24,100 @@ export default function NavBar() {
 
   const qty = mounted ? totalQty : 0;
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // zavření menu na Escape
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
+
+  // (volitelné) zamknout scroll pozadí při otevřeném menu
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [menuOpen]);
+
   return (
-    <header className="site-nav-wrapper">
-      <div className="site-nav">
-        <div className="nav-logo">
+    <header className={styles.siteNavWrapper}>
+      <div className={styles.siteNav}>
+        <div className={styles.navLogo}>
           <Image
             src="/LOGO-blejskarna.svg"
             alt="Blejskárna logo"
             width={200}
             height={200}
+            priority
           />
         </div>
 
-        <div className="nav-phone">
-          <div className="nav-topRow">
-            <a href="tel:+420601006076" className="nav-pill nav-pill--highlight">
-              Chytni blejsk 📞+420 601 006 076
+        <div className={styles.navPhone}>
+          <div className={styles.navTopRow}>
+            <a
+              href="tel:+420601006076"
+              className={`${styles.navPill} ${styles.navPillHighlight}`}
+            >
+              <span className={styles.phoneText}>Chytni blejsk </span>
+              <span className={styles.phoneNumber}>📞+420 601 006 076</span>
             </a>
 
-            <Link href="/kosik" className="cart-pill" aria-label="Košík">
-              <FaShoppingCart />
-              <span
-                className="cart-badge"
-                style={{ display: qty > 0 ? "inline-flex" : "none" }}
-                suppressHydrationWarning
+            <div className={styles.topActions}>
+              <Link href="/kosik" className={styles.cartPill} aria-label="Košík">
+                <FaShoppingCart />
+                <span
+                  className={styles.cartBadge}
+                  style={{ display: qty > 0 ? "inline-flex" : "none" }}
+                  suppressHydrationWarning
+                >
+                  {qty}
+                </span>
+              </Link>
+
+              <button
+                type="button"
+                className={styles.menuButton}
+                aria-label={menuOpen ? "Zavřít menu" : "Otevřít menu"}
+                aria-expanded={menuOpen}
+                aria-controls="main-menu"
+                onClick={() => setMenuOpen((v) => !v)}
               >
-                {qty}
-              </span>
-            </Link>
+                <span className={styles.menuIcon} aria-hidden="true">
+                  ☰
+                </span>
+              </button>
+            </div>
           </div>
 
-          <nav className="nav-menu">
+          {menuOpen && (
+            <button
+              type="button"
+              className={styles.backdrop}
+              aria-label="Zavřít menu"
+              onClick={() => setMenuOpen(false)}
+            />
+          )}
+
+          <nav
+            id="main-menu"
+            className={`${styles.navMenu} ${menuOpen ? styles.navMenuOpen : ""}`}
+          >
             {navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="nav-pill">
+              <Link
+                key={link.href}
+                href={link.href}
+                className={styles.navPill}
+                onClick={() => setMenuOpen(false)}
+              >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>

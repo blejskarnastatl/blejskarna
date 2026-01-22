@@ -1,0 +1,139 @@
+/* app/jak_k_nam/page.module.css */
+
+.howto {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.1fr 0.85fr;
+  column-gap: 1rem;  
+  align-items: start;
+  max-width: 1100px;    
+  margin: 0 auto;       
+}
+
+
+.howtoTitle {
+  margin: 0 0 1rem;
+  margin-top: 0.5rem;
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.howtoTitleScribble {
+  background: #fff;
+  padding: 0.35rem 0.9rem;
+  border-radius: 18px;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.9);
+}
+
+.howtoSteps {
+  margin: 0;
+  padding-left: 1.3rem;
+  font-size: var(--font-size-base);
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.howtoSteps li {
+  margin: 0.55rem 0;
+}
+
+.howtoUnderline {
+  display: inline-block;
+  position: relative;
+  padding: 0 0.1rem;
+}
+
+.howtoUnderline::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  bottom: -3px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 999px;
+  transform: rotate(-2deg);
+}
+
+
+.howtoMapCard {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 22px;
+  padding: 1rem;
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.howtoPhotoImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+  margin: auto;
+}
+
+.howtoMapFrame {
+  border-radius: 18px;
+  width: 100%;
+  overflow: hidden;
+  border: 2px solid rgba(0, 0, 0, 0.9);
+}
+
+.howtoMapFrame iframe {
+  display: block;
+  width: 100%;
+  height: 200px;
+  border: 0;
+}
+
+.howtoMapMeta {
+  font-size: 18px;
+  text-align: center;
+}
+
+.howtoMapLine {
+  margin: 0.15rem 0;
+  font-weight: 450;
+}
+
+.howtoCallPill {
+  display: inline-block;
+  margin-top: 0.5rem;
+  text-decoration: none;
+  color: #000;
+  background-color: var(--blejsk-blue);
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.howtoCallPill:hover {
+  background-color: var(--blejsk-blue-hover);
+}
+
+/* ===== Responsivní: na mobilu pod sebe ===== */
+@media (max-width: 900px) {
+  .howto {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    padding: 0;
+  }
+
+  .howtoSteps {
+    list-style-position: inside;
+    padding-left: 0;
+  }
+
+  .howtoLeft {
+    text-align: center;
+  }
+
+  .howtoMapFrame iframe {
+    height: 260px;
+  }
+}
