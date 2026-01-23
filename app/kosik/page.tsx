@@ -1,10 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import styles from "./page.module.css";
+
+import { useMemo, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/app/components/cart";
-import { NAPRANI_MAX, NAPRANI_MIN, NAPRANI_STEP, NAPRANI_VOUCHER_ID, voucherById, VoucherId, vouchers} from "@/app/data/vouchers";
+import {
+  NAPRANI_MAX,
+  NAPRANI_MIN,
+  NAPRANI_STEP,
+  NAPRANI_VOUCHER_ID,
+  voucherById,
+} from "@/app/data/vouchers";
 import { FaCircleInfo } from "react-icons/fa6";
 
 const czk = new Intl.NumberFormat("cs-CZ", {
@@ -62,9 +70,9 @@ export default function KosikPage() {
   const normalized = useMemo(() => {
     return items.map((it) => {
       const voucher = voucherById[it.voucherId];
-      const is_NAPRANI = it.voucherId === NAPRANI_VOUCHER_ID;
+      const isWish = it.voucherId === NAPRANI_VOUCHER_ID;
 
-      const unitPrice = is_NAPRANI
+      const unitPrice = isWish
         ? Math.max(NAPRANI_MIN, Math.min(NAPRANI_MAX, it.unitPriceCzk || NAPRANI_MIN))
         : it.unitPriceCzk;
 
@@ -73,10 +81,10 @@ export default function KosikPage() {
       return {
         cartItemId: it.cartItemId,
         voucherId: it.voucherId,
-        title: voucher?.title,
-        src: voucher?.src,
-        alt: voucher.alt,
-        isWish: is_NAPRANI,
+        title: voucher?.title ?? "Poukaz",
+        src: voucher?.src ?? "",
+        alt: voucher?.alt ?? "Poukaz",
+        isWish,
         qty,
         unitPriceCzk: unitPrice,
         lineTotalCzk: qty * unitPrice,
@@ -120,6 +128,7 @@ export default function KosikPage() {
   const phoneOk = isValidPhone(phone);
   const showPhoneError = (touchedPhone || submitAttempted) && !phoneOk;
 
+  // doručení: pickup pořád chce email? ty ho chceš kvůli potvrzení, takže nechávám email povinný
   const canSubmit = !isEmpty && nameOk && phoneOk && emailOk && emailsMatch;
 
   const submit = async () => {
@@ -153,7 +162,11 @@ export default function KosikPage() {
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok || !data?.ok) {
-        alert(`Nepodařilo se odeslat objednávku. Zkus to prosím znovu nebo nám zavolej.\nChyba: ${res.status} ${data?.error || "Neznámá chyba"}`);
+        alert(
+          `Nepodařilo se odeslat objednávku. Zkus to prosím znovu nebo nám zavolej.\nChyba: ${res.status} ${
+            data?.error || "Neznámá chyba"
+          }`
+        );
         return;
       }
 
@@ -166,67 +179,79 @@ export default function KosikPage() {
           totalCzk: data.totalCzk ?? totalCzk,
         })
       );
+
       clear();
       window.location.href = "/dekujeme";
-
     } catch {
       alert("Nepodařilo se odeslat objednávku (chyba připojení). Zkus to prosím znovu.");
     }
   };
 
+  // UX: po submitAttempted scroll na první chybu (mobil friendly)
+  useEffect(() => {
+    if (!submitAttempted) return;
+    if (canSubmit) return;
+
+    const el =
+      document.querySelector(`.${styles.inputError}`) ||
+      document.querySelector(`[data-error="true"]`);
+    if (el instanceof HTMLElement) el.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [submitAttempted, canSubmit]);
 
   return (
-    <div className="cart-page">
-      <div className="cart-head">
-        <h1 className="cart-title">Košík</h1>
-      </div>
+    <div className={styles.page}>
+      <header className={styles.head}>
+        <h1 className={styles.title}>Košík</h1>
+      </header>
 
-      <div className="cart-grid">
+      <div className={styles.grid}>
         {/* LEVÁ: obsah košíku */}
-        <section className="cart-card">
-          <div className="cart-cardHead">
-            <h2>Obsah košíku</h2>
+        <section className={styles.card}>
+          <div className={styles.cardHead}>
+            <h2 className={styles.cardTitle}>Obsah košíku</h2>
             {!isEmpty && (
-              <button type="button" className="cart-linkBtn" onClick={clear}>
+              <button type="button" className={styles.linkBtn} onClick={clear}>
                 Vyprázdnit
               </button>
             )}
           </div>
 
           {isEmpty ? (
-            <div className="cart-empty">
+            <div className={styles.empty}>
               <p>Košík je prázdný.</p>
-              <Link href="/poukazy" className="cart-primaryLink">
+              <Link href="/poukazy" className={styles.primaryLink}>
                 Přejít na poukazy →
               </Link>
             </div>
           ) : (
             <>
-              <ul className="cart-list">
+              <ul className={styles.list}>
                 {normalized.map((it) => (
-                  <li key={it.cartItemId} className="cart-row">
-                    <div className="cart-itemLeft">
+                  <li key={it.cartItemId} className={styles.row}>
+                    <div className={styles.itemLeft}>
                       {it.src ? (
                         <Image
                           src={it.src}
                           alt={it.alt}
-                          width={72}
-                          height={72}
-                          className="cart-thumb"
+                          width={76}
+                          height={76}
+                          className={styles.thumb}
                         />
                       ) : (
-                        <div className="cart-thumb cart-thumb--placeholder" />
+                        <div className={`${styles.thumb} ${styles.thumbPlaceholder}`} />
                       )}
 
-                      <div className="cart-itemMeta">
-                        <div className="cart-itemTitle">{it.title}</div>
+                      <div className={styles.itemMeta}>
+                        <div className={styles.itemTitle} title={it.title}>
+                          {it.title}
+                        </div>
 
                         {it.isWish && (
-                          <div className="cart-wishPrice">
-                            <label className="cart-fieldInline">
-                              <span>Hodnota:</span>
+                          <div className={styles.wishPrice}>
+                            <label className={styles.fieldInline}>
+                              <span className={styles.inlineLabel}>Hodnota:</span>
                               <input
-                                className="cart-priceInput"
+                                className={styles.priceInput}
                                 type="number"
                                 inputMode="numeric"
                                 min={NAPRANI_MIN}
@@ -240,14 +265,14 @@ export default function KosikPage() {
                                   setUnitPrice(it.cartItemId, clamped);
                                 }}
                               />
-                              <span>Kč</span>
+                              <span className={styles.inlineLabel}>Kč</span>
                             </label>
                           </div>
                         )}
 
                         <button
                           type="button"
-                          className="cart-removeBtn"
+                          className={styles.removeBtn}
                           onClick={() => removeItem(it.cartItemId)}
                         >
                           Odebrat
@@ -255,8 +280,8 @@ export default function KosikPage() {
                       </div>
                     </div>
 
-                    <div className="cart-right">
-                      <div className="cart-qtyCtl">
+                    <div className={styles.right}>
+                      <div className={styles.qtyCtl}>
                         <button
                           type="button"
                           onClick={() => setQty(it.cartItemId, Math.max(1, it.qty - 1))}
@@ -266,7 +291,7 @@ export default function KosikPage() {
                         </button>
 
                         <input
-                          className="cart-qtyInput"
+                          className={styles.qtyInput}
                           inputMode="numeric"
                           value={it.qty}
                           onChange={(e) => {
@@ -286,7 +311,7 @@ export default function KosikPage() {
                         </button>
                       </div>
 
-                      <div className="cart-lineTotal">
+                      <div className={styles.lineTotal}>
                         <span>Mezisoučet</span>
                         <strong>{czk.format(it.lineTotalCzk)}</strong>
                       </div>
@@ -295,12 +320,12 @@ export default function KosikPage() {
                 ))}
               </ul>
 
-              <div className="cart-summary">
-                <div className="cart-summaryRow">
+              <div className={styles.summary}>
+                <div className={styles.summaryRow}>
                   <span>Počet kusů</span>
                   <strong>{totalQty}</strong>
                 </div>
-                <div className="cart-summaryRow">
+                <div className={styles.summaryRow}>
                   <span>Celkem</span>
                   <strong>{czk.format(totalCzk)}</strong>
                 </div>
@@ -310,26 +335,27 @@ export default function KosikPage() {
         </section>
 
         {/* PRAVÁ: údaje + instrukce */}
-        <section className="cart-card">
-          <div className="cart-cardHead">
-            <h2>Kontaktní údaje</h2>
+        <section className={styles.card}>
+          <div className={styles.cardHead}>
+            <h2 className={styles.cardTitle}>Kontaktní údaje</h2>
           </div>
 
-          <div className="cart-form">
-            <div className="cart-formRow2">
-              <label className="cart-field">
-                <span>
-                  Jméno <span className="required">*</span>
+          <div className={styles.form}>
+            <div className={styles.formRow2}>
+              <label className={styles.field}>
+                <span className={styles.labelRow}>
+                  Jméno <span className={styles.required}>*</span>
                 </span>
                 <input
-                  className={showFirstNameError ? "input-error" : ""}
+                  className={showFirstNameError ? styles.inputError : ""}
+                  data-error={showFirstNameError ? "true" : undefined}
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   onBlur={() => setTouchedFirstName(true)}
                   autoComplete="given-name"
                 />
                 {showFirstNameError && (
-                  <div className="cart-fieldError">
+                  <div className={styles.fieldError}>
                     {!firstNameCharsOk && fn.length > 0
                       ? "Jméno obsahuje nepovolené znaky."
                       : fn.length === 0
@@ -339,19 +365,20 @@ export default function KosikPage() {
                 )}
               </label>
 
-              <label className="cart-field">
-                <span>
-                  Příjmení <span className="required">*</span>
+              <label className={styles.field}>
+                <span className={styles.labelRow}>
+                  Příjmení <span className={styles.required}>*</span>
                 </span>
                 <input
-                  className={showLastNameError ? "input-error" : ""}
+                  className={showLastNameError ? styles.inputError : ""}
+                  data-error={showLastNameError ? "true" : undefined}
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   onBlur={() => setTouchedLastName(true)}
                   autoComplete="family-name"
                 />
                 {showLastNameError && (
-                  <div className="cart-fieldError">
+                  <div className={styles.fieldError}>
                     {!lastNameCharsOk && ln.length > 0
                       ? "Příjmení obsahuje nepovolené znaky."
                       : ln.length === 0
@@ -362,12 +389,13 @@ export default function KosikPage() {
               </label>
             </div>
 
-            <label className="cart-field">
-              <span>
-                Telefon <span className="required">*</span>
+            <label className={styles.field}>
+              <span className={styles.labelRow}>
+                Telefon <span className={styles.required}>*</span>
               </span>
               <input
-                className={showPhoneError ? "input-error" : ""}
+                className={showPhoneError ? styles.inputError : ""}
+                data-error={showPhoneError ? "true" : undefined}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 onBlur={() => setTouchedPhone(true)}
@@ -375,19 +403,16 @@ export default function KosikPage() {
                 inputMode="tel"
                 placeholder="+420 601 006 076"
               />
-              {showPhoneError && (
-                <div className="cart-fieldError">
-                  Neplatné telefonní číslo.
-                </div>
-              )}
+              {showPhoneError && <div className={styles.fieldError}>Neplatné telefonní číslo.</div>}
             </label>
 
-            <label className="cart-field">
-              <span>
-                E-mail <span className="required">*</span>
+            <label className={styles.field}>
+              <span className={styles.labelRow}>
+                E-mail <span className={styles.required}>*</span>
               </span>
               <input
-                className={showEmailError ? "input-error" : ""}
+                className={showEmailError ? styles.inputError : ""}
+                data-error={showEmailError ? "true" : undefined}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onBlur={() => setTouchedEmail(true)}
@@ -395,20 +420,19 @@ export default function KosikPage() {
                 inputMode="email"
               />
               {showEmailError && (
-                <div className="cart-fieldError">
-                  {e1.length === 0
-                    ? "E-mail je povinný."
-                    : "Zkontroluj prosím e-mail (vypadá neúplně)."}
+                <div className={styles.fieldError}>
+                  {e1.length === 0 ? "E-mail je povinný." : "Zkontroluj prosím e-mail (vypadá neúplně)."}
                 </div>
               )}
             </label>
 
-            <label className="cart-field">
-              <span>
-                E-mail znovu <span className="required">*</span>
+            <label className={styles.field}>
+              <span className={styles.labelRow}>
+                E-mail znovu <span className={styles.required}>*</span>
               </span>
               <input
-                className={showEmail2Error ? "input-error" : ""}
+                className={showEmail2Error ? styles.inputError : ""}
+                data-error={showEmail2Error ? "true" : undefined}
                 value={email2}
                 onChange={(e) => setEmail2(e.target.value)}
                 onBlur={() => setTouchedEmail2(true)}
@@ -416,20 +440,20 @@ export default function KosikPage() {
                 inputMode="email"
               />
               {showEmail2Error && (
-                <div className="cart-fieldError">
+                <div className={styles.fieldError}>
                   {e2.length === 0 ? "E-mail je povinný." : "E-maily se neshodují."}
                 </div>
               )}
             </label>
 
-            <div className="cart-requiredNote">
-              <span className="required">*</span> Označené pole je povinné.
+            <div className={styles.requiredNote}>
+              <span className={styles.required}>*</span> Označené pole je povinné.
             </div>
 
-            <div className="cart-delivery">
-              <h3>Doručení poukazu</h3>
+            <div className={styles.delivery}>
+              <h3 className={styles.sectionTitle}>Doručení poukazu</h3>
 
-              <label className="cart-radio">
+              <label className={styles.radio}>
                 <input
                   type="radio"
                   name="delivery"
@@ -440,7 +464,7 @@ export default function KosikPage() {
                 <span>Chci zaslat elektronický voucher na e-mail</span>
               </label>
 
-              <label className="cart-radio">
+              <label className={styles.radio}>
                 <input
                   type="radio"
                   name="delivery"
@@ -453,36 +477,44 @@ export default function KosikPage() {
             </div>
 
             {delivery === "pickup" && (
-              <div className="cart-note">
-                <FaCircleInfo/> Poukazy není třeba objednávat dopředu, jsou k dostání přímo v Blejskárně. Stačí přijít během otevírací doby, případně zavolat.
+              <div className={styles.note}>
+                <FaCircleInfo className={styles.noteIcon} />
+                <span>
+                  Poukazy není třeba objednávat dopředu, jsou k dostání přímo v Blejskárně. Stačí přijít během
+                  otevírací doby, případně zavolat.
+                </span>
               </div>
             )}
 
-            <div className="cart-instructions">
-              <h3>Jak to probíhá</h3>
-              <ol>
+            <div className={styles.instructions}>
+              <h3 className={styles.sectionTitle}>Jak to probíhá</h3>
+              <ol className={styles.instructionsList}>
                 <li>Vybereš poukaz(y), případně navolíš množství a hodnotu, vyplníš kontakt.</li>
                 <li>Po odeslání objednávky ti dorazí mail s QR kódem pro zaplacení.</li>
                 <li>
-                  {" "}
                   {delivery === "email"
                     ? "Jakmile platbu obdržíme, elektronické poukazy ti doručíme na e-mail."
-                    : "Po zaplacení se pro poukazy můžeš stavit kdykoliv během otevírací doby, nebo nám crnknni a nějak se domluvíme."}
+                    : "Po zaplacení se pro poukazy můžeš stavit kdykoliv během otevírací doby, nebo nám crnkni a nějak se domluvíme."}
                 </li>
               </ol>
             </div>
 
-            <button type="button" className="cart-submit" disabled={!canSubmit} onClick={submit}>
+            <button
+              type="button"
+              className={styles.submit}
+              disabled={!canSubmit}
+              onClick={submit}
+            >
               Odeslat objednávku
             </button>
 
             {!canSubmit && (
-              <div className="cart-submitHint">
+              <div className={styles.submitHint}>
                 Doplň prosím povinná pole a překontroluj shodu e-mailů. Košík nesmí být prázdný.
               </div>
             )}
 
-            <div className="cart-back">
+            <div className={styles.back}>
               <Link href="/poukazy">← Zpět na poukazy</Link>
             </div>
           </div>

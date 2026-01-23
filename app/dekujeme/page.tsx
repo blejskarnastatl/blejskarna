@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "./page.module.css";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { FaCircleInfo, FaRegCircleCheck } from "react-icons/fa6";
@@ -63,12 +64,12 @@ export default function DekujemePage() {
 
   const totalQty = useMemo(
     () => normalizedItems.reduce((s, x) => s + x.qty, 0),
-    [normalizedItems],
+    [normalizedItems]
   );
 
   const totalCzk = useMemo(
     () => normalizedItems.reduce((s, x) => s + x.line, 0),
-    [normalizedItems],
+    [normalizedItems]
   );
 
   const fullName =
@@ -87,172 +88,168 @@ export default function DekujemePage() {
   const account = payment?.account || "";
   const iban = payment?.iban || "";
 
-
   if (!order) {
     return (
-      <div className="page-shell">
-        <div className="thanks-wrap">
-          <section className="thanks-card">
-            <div className="thanks-head">
-              <div className="thanks-badge">
-                <FaRegCircleCheck />
-              </div>
-              <div>
-                <h1 className="thanks-title">Děkujeme!</h1>
-                <p className="thanks-subtitle">
-                  Objednávku jsme v tomto zařízení nenašli. Pokud byla v pořádku odeslaná, potvrzení by mělo dorazit na Váš e-mail.
-                  Pokud ji nenajdete ani tam, vytvořte ji prosím znovu, nebo nám zavolejte a poukazy Vám doručíme ručně.
-                </p>
-              </div>
+      <div className={styles.wrap}>
+        <section className={styles.card}>
+          <div className={styles.head}>
+            <FaRegCircleCheck className={styles.badge} />
+            <div className={styles.headText}>
+              <h1 className={styles.title}>Děkujeme!</h1>
+              <p className={styles.subtitle}>
+                Objednávku jsme v tomto zařízení nenašli. Pokud byla v pořádku odeslaná,
+                potvrzení by mělo dorazit na Váš e-mail. Pokud ji nenajdete ani tam,
+                vytvořte ji prosím znovu, nebo nám zavolejte a poukazy Vám doručíme ručně.
+              </p>
             </div>
+          </div>
 
-            <div className="thanks-actions">
-              <Link href="/poukazy" className="thanks-btn thanks-btn--primary">
-                 ← Zpět na poukazy
-              </Link>
-            </div>
-          </section>
-        </div>
+          <div className={styles.actions}>
+            <Link href="/poukazy" className={`${styles.btn} ${styles.btnPrimary}`}>
+              ← Zpět na poukazy
+            </Link>
+          </div>
+        </section>
       </div>
     );
   }
 
   return (
-    <div className="page-shell">
-      <div className="thanks-wrap">
-        <section className="thanks-card">
-          {/* HEADER */}
-          <div className="thanks-head">
-            
-            <FaRegCircleCheck className="thanks-badge"/>
+    <div className={styles.wrap}>
+      <section className={styles.card}>
+        {/* HEADER */}
+        <div className={styles.head}>
+          <FaRegCircleCheck className={styles.badge} />
 
-            <div className="thanks-headText">
-              <h1 className="thanks-title">Děkujeme za objednávku!</h1>
+          <div className={styles.headText}>
+            <h1 className={styles.title}>Děkujeme za objednávku!</h1>
 
-              <div className="thanks-orderLine">
-                <span>Objednávka </span>
-                <strong>#{order.orderId || "—"}</strong>
-              </div>
+            <div className={styles.orderLine}>
+              <span>Objednávka </span>
+              <strong>#{order.orderId || "—"}</strong>
             </div>
           </div>
+        </div>
 
-          {/* PAYMENT */}
-          {qrUrl ? (
-            <div className="thanks-section">
-              <h2 className="thanks-h2">Platba</h2>
+        {/* PAYMENT */}
+        {qrUrl ? (
+          <div className={styles.section}>
+            <h2 className={styles.h2}>Platba</h2>
 
-              <div className="thanks-payBox">
-                <div className="thanks-qrCol">
-                  <img className="thanks-qr" src={qrUrl} alt="QR platba" />
+            <div className={styles.payBox}>
+              <div className={styles.qrCol}>
+                <img className={styles.qr} src={qrUrl} alt="QR platba" />
+              </div>
+
+              <div className={styles.payMeta}>
+                <div className={styles.payRow}>
+                  <span>Částka</span>
+                  <strong>{czk.format(totalCzk)}</strong>
                 </div>
 
-                <div className="thanks-payMeta">
-                  <div className="thanks-payRow">
-                    <span>Částka</span>
-                    <strong>{czk.format(totalCzk)}</strong>
+                {account ? (
+                  <div className={styles.payRow}>
+                    <span>Číslo účtu</span>
+                    <strong>{account}</strong>
                   </div>
-                  {account ? (
-                    <div className="thanks-payRow">
-                      <span>Číslo účtu</span>
-                      <strong>{account}</strong>
-                    </div>
-                  ) : null}
-                  {iban ? (
-                    <div className="thanks-payRow">
-                      <span>IBAN</span>
-                      <strong>{iban}</strong>
-                    </div>
-                  ) : null}
-                  {vs ? (
-                    <div className="thanks-payRow">
-                      <span>Variabilní symbol</span>
-                      <strong>{vs}</strong>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-            </div>
-          ) : null}
+                ) : null}
 
-          {/* ITEMS */}
-          <div className="thanks-section">
-            <h2 className="thanks-h2">Rekapitulace</h2>
-
-            {/* META */}
-            <div className="thanks-meta">
-              <div className="thanks-metaRow">
-                <span>Jméno</span>
-                <strong>{fullName}</strong>
-              </div>
-              <div className="thanks-metaRow">
-                <span>E-mail</span>
-                <strong>{email}</strong>
-              </div>
-              {phone ? (
-                <div className="thanks-metaRow">
-                  <span>Telefon</span>
-                  <strong>{phone}</strong>
-                </div>
-              ) : null}
-              <div className="thanks-metaRow">
-                <span>Doručení</span>
-                <strong>{deliveryTitle}</strong>
-              </div>
-            </div>
-
-            <ul className="thanks-items">
-              {normalizedItems.map((x, idx) => (
-                <li key={idx} className="thanks-itemRow">
-                  <div className="thanks-itemLeft">
-                    <div className="thanks-itemTitle">{x.title}</div>
-                    <div className="thanks-itemSub">
-                      {x.qty}× {czk.format(x.unit)}
-                    </div>
+                {iban ? (
+                  <div className={styles.payRow}>
+                    <span>IBAN</span>
+                    <strong>{iban}</strong>
                   </div>
-                  <div className="thanks-itemRight">{czk.format(x.line)}</div>
-                </li>
-              ))}
-            </ul>
+                ) : null}
 
-            <div className="thanks-totals">
-              <div className="thanks-totalRow">
-                <span>Počet kusů</span>
-                <strong>{totalQty}</strong>
-              </div>
-              <div className="thanks-totalRow thanks-totalRow--big">
-                <span>Celkem</span>
-                <strong>{czk.format(totalCzk)}</strong>
+                {vs ? (
+                  <div className={styles.payRow}>
+                    <span>Variabilní symbol</span>
+                    <strong>{vs}</strong>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
+        ) : null}
 
-          {/* WHAT NEXT */}
-          <div className="thanks-section">
-            <div className="thanks-next">
-              <p>
-                <FaCircleInfo className="thanks-infoIcon"/>
-                {delivery === "email"
-                  ? "Jakmile obdržíme platbu, elektronické poukazy ti přistanou do e-mailu."
-                  : "Jakmile obdržíme platbu, poukaz(y) si můžeš vyzvednout v Blejskárně během otevírací doby."}
-              </p>
+        {/* ITEMS */}
+        <div className={styles.section}>
+          <h2 className={styles.h2}>Rekapitulace</h2>
 
-              <p className="thanks-nextMuted">
-                Pokud spěcháš, něco se nepovedlo nebo máš jiný dotaz, neváhej se na nás obrátit. 
-              </p>
+          {/* META */}
+          <div className={styles.meta}>
+            <div className={styles.metaRow}>
+              <span>Jméno</span>
+              <strong>{fullName}</strong>
+            </div>
+            <div className={styles.metaRow}>
+              <span>E-mail</span>
+              <strong>{email}</strong>
+            </div>
+            {phone ? (
+              <div className={styles.metaRow}>
+                <span>Telefon</span>
+                <strong>{phone}</strong>
+              </div>
+            ) : null}
+            <div className={styles.metaRow}>
+              <span>Doručení</span>
+              <strong>{deliveryTitle}</strong>
             </div>
           </div>
 
-          {/* ACTIONS */}
-          <div className="thanks-actions">
-            <Link href="/poukazy" className="thanks-btn thanks-btn--ghost">
-              ← Vybrat další poukazy
-            </Link>
-            <Link href="/" className="thanks-btn thanks-btn--primary">
-              Hotovo <FaRegCircleCheck/>
-            </Link>
+          <ul className={styles.items}>
+            {normalizedItems.map((x, idx) => (
+              <li key={idx} className={styles.itemRow}>
+                <div className={styles.itemLeft}>
+                  <div className={styles.itemTitle}>{x.title}</div>
+                  <div className={styles.itemSub}>
+                    {x.qty}× {czk.format(x.unit)}
+                  </div>
+                </div>
+                <div className={styles.itemRight}>{czk.format(x.line)}</div>
+              </li>
+            ))}
+          </ul>
+
+          <div className={styles.totals}>
+            <div className={styles.totalRow}>
+              <span>Počet kusů</span>
+              <strong>{totalQty}</strong>
+            </div>
+            <div className={`${styles.totalRow} ${styles.totalRowBig}`}>
+              <span>Celkem</span>
+              <strong>{czk.format(totalCzk)}</strong>
+            </div>
           </div>
-        </section>
-      </div>
+        </div>
+
+        {/* WHAT NEXT */}
+        <div className={styles.section}>
+          <div className={styles.next}>
+            <p className={styles.nextLine}>
+              <FaCircleInfo className={styles.infoIcon} />
+              {delivery === "email"
+                ? "Jakmile obdržíme platbu, elektronické poukazy ti přistanou do e-mailu."
+                : "Jakmile obdržíme platbu, poukaz(y) si můžeš vyzvednout v Blejskárně během otevírací doby."}
+            </p>
+
+            <p className={styles.nextMuted}>
+              Pokud spěcháš, něco se nepovedlo nebo máš jiný dotaz, neváhej se na nás obrátit.
+            </p>
+          </div>
+        </div>
+
+        {/* ACTIONS */}
+        <div className={styles.actions}>
+          <Link href="/poukazy" className={`${styles.btn} ${styles.btnGhost}`}>
+            ← Vybrat další poukazy
+          </Link>
+          <Link href="/" className={`${styles.btn} ${styles.btnPrimary}`}>
+            Hotovo <FaRegCircleCheck className={styles.btnIcon} />
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

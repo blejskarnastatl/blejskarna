@@ -218,7 +218,7 @@
 }
 
 /* DESKTOP: hamburger schovej a menu zobraz horizontálně (bez overlay) */
-@media (min-width: 980px) {
+@media (min-width: 995px) {
   .menuButton {
     display: none;
   }

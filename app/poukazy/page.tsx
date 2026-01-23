@@ -12,7 +12,13 @@ import {
   NAPRANI_VOUCHER_ID,
   vouchers,
 } from "@/app/data/vouchers";
-import { FaCartPlus, FaRegCheckCircle, FaShoppingCart, FaTimes } from "react-icons/fa";
+import {
+  FaCartPlus,
+  FaCheckCircle,
+  FaRegCheckCircle,
+  FaShoppingCart,
+  FaTimes,
+} from "react-icons/fa";
 
 const czk = new Intl.NumberFormat("cs-CZ", {
   style: "currency",
@@ -23,7 +29,7 @@ const czk = new Intl.NumberFormat("cs-CZ", {
 export default function Page() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState<"left" | "right">("right");
-  const [qty, seCarouselQty] = useState(1);
+  const [qty, setCarouselQty] = useState(1);
   const [wishValue, setWishValue] = useState(NAPRANI_MIN);
   const { addItem } = useCart();
 
@@ -31,47 +37,53 @@ export default function Page() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const selected = vouchers[index];
-  const is_NAPRANI = selected.id === NAPRANI_VOUCHER_ID;
+  const isNapranI = selected.id === NAPRANI_VOUCHER_ID;
 
   const unitPriceCzk = useMemo(() => {
-    if (is_NAPRANI) {
+    if (isNapranI) {
       const n = Math.floor(Number(wishValue) || NAPRANI_MIN);
       return Math.max(NAPRANI_MIN, Math.min(NAPRANI_MAX, n));
     }
     const price = Number(selected?.price ?? 0);
     return Number.isFinite(price) ? Math.max(0, Math.floor(price)) : 0;
-  }, [selected, is_NAPRANI, wishValue]);
+  }, [selected, isNapranI, wishValue]);
 
   const addToCart = () => {
     addItem({ id: selected.id, unitPrice: unitPriceCzk }, qty);
-    seCarouselQty(1);
+    setCarouselQty(1);
     setIsModalOpen(true);
   };
 
+  // ESC zavře modal
   useEffect(() => {
+    if (!isModalOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsModalOpen(false);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [isModalOpen]);
 
+  // zamknout scroll při otevřeném modalu
   useEffect(() => {
-    document.body.style.overflow = isModalOpen ? "hidden" : "";
+    if (!isModalOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = prev;
     };
   }, [isModalOpen]);
 
   return (
-    <div className="page-shell">
+    <div className={styles.page}>
       <div className={styles.voucherCarousel}>
         <h1 className={styles.voucherHeading}>Dárkové lajstra? Máme.</h1>
-        <strong>
-          Všechny poukazy je možné zakoupit přímo v Blejskárně i bez objednání.
-        </strong>
 
         <div className={styles.voucherHowto}>
+          <h2 className={styles.voucherSubHeading}>
+            <FaCheckCircle className={styles.subHeadingIcon} /> Všechny poukazy je možné zakoupit přímo v Blejskárně i bez objednání.
+          </h2>
+
           <ol className={styles.voucherHowtoList}>
             <li>
               Naklikáš si poukazy <strong>do košíku</strong>.
@@ -86,7 +98,7 @@ export default function Page() {
             <li>
               Po přijetí platby <strong>voucher pošleme e-mailem</strong> nebo bude
               připravený <strong>k vyzvednutí v Blejskárně</strong>, podle toho,
-              co sis zvolil.
+              co si zvolíš.
             </li>
           </ol>
         </div>
@@ -95,7 +107,7 @@ export default function Page() {
           index={index}
           onIndexChange={(i) => {
             setIndex(i);
-            seCarouselQty(1);
+            setCarouselQty(1);
             if (vouchers[i].id === NAPRANI_VOUCHER_ID) setWishValue(NAPRANI_MIN);
           }}
           direction={direction}
@@ -103,18 +115,18 @@ export default function Page() {
         />
 
         <div className={styles.voucherActions}>
-          {unitPriceCzk > 0 && !is_NAPRANI && (
+          {unitPriceCzk > 0 && !isNapranI && (
             <div className={styles.voucherPricePill} aria-label="Cena">
               <strong>{czk.format(unitPriceCzk)}</strong>
             </div>
           )}
 
-          {is_NAPRANI && (
-            <div className="cart-wishPrice">
-              <label className="cart-fieldInline">
+          {isNapranI && (
+            <div className={styles.wishPrice} aria-label="Hodnota poukazu">
+              <label className={styles.fieldInline}>
                 <span>Hodnota:</span>
                 <input
-                  className="cart-priceInput"
+                  className={styles.priceInput}
                   type="number"
                   inputMode="numeric"
                   min={NAPRANI_MIN}
@@ -134,49 +146,66 @@ export default function Page() {
           )}
 
           <div className={styles.voucherQty}>
-            <button type="button" onClick={() => seCarouselQty((q) => Math.max(1, q - 1))}>
+            <button
+              type="button"
+              onClick={() => setCarouselQty((q) => Math.max(1, q - 1))}
+              aria-label="Snížit množství"
+            >
               −
             </button>
             <span className={styles.voucherQtyNumber}>{qty}</span>
-            <button type="button" onClick={() => seCarouselQty((q) => q + 1)}>
+            <button
+              type="button"
+              onClick={() => setCarouselQty((q) => q + 1)}
+              aria-label="Zvýšit množství"
+            >
               +
             </button>
           </div>
 
-          <button type="button" className={styles.voucherAddBtn} onClick={addToCart}>
+          <button
+            type="button"
+            className={styles.voucherAddBtn}
+            onClick={addToCart}
+          >
             <FaCartPlus /> Do košíku
           </button>
         </div>
       </div>
 
       {isModalOpen && (
-        <div className="cart-modalOverlay" onClick={() => setIsModalOpen(false)}>
-          <div className="cart-modalCard" onClick={(e) => e.stopPropagation()}>
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div
+            className={styles.modalCard}
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               type="button"
-              className="cart-modalClose"
+              className={styles.modalClose}
               onClick={() => setIsModalOpen(false)}
               aria-label="Zavřít"
             >
               <FaTimes />
             </button>
 
-            <div className="cart-modalHead">
-              <div className="cart-modalIcon">
+            <div className={styles.modalHead}>
+              <div className={styles.modalIcon}>
                 <FaShoppingCart />
               </div>
 
-              <div>
-                <h3 className="cart-modalTitle">
-                  <FaRegCheckCircle className="icon" /> Přidáno do košíku
-                </h3>
-              </div>
+              <h3 className={styles.modalTitle}>
+                <FaRegCheckCircle className={styles.modalTitleIcon} />
+                Přidáno do košíku
+              </h3>
             </div>
 
-            <div className="cart-modalActions">
+            <div className={styles.modalActions}>
               <button
                 type="button"
-                className="cart-modalBtn cart-modalBtn--ghost"
+                className={`${styles.modalBtn} ${styles.modalBtnGhost}`}
                 onClick={() => setIsModalOpen(false)}
               >
                 Pokračovat v nákupu
@@ -184,7 +213,7 @@ export default function Page() {
 
               <button
                 type="button"
-                className="cart-modalBtn cart-modalBtn--primary"
+                className={`${styles.modalBtn} ${styles.modalBtnPrimary}`}
                 onClick={() => router.push("/kosik")}
               >
                 Přejít do košíku
