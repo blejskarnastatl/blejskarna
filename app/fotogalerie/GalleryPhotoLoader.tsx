@@ -11,11 +11,21 @@ export default function getGalleryPhotos() {
     .filter((file) => /\.(jpg|jpeg|png|webp)$/i.test(file))
     .map((file) => {
       const filePath = path.join(galleryPath, file);
-      const dimensions = sizeOf(fs.readFileSync(filePath));
-      return {
-        src: `/fotogalerie/${file}`,
-        width: dimensions.width!,
-        height: dimensions.height!,
-      };
-    });
+      try {
+        const dimensions = sizeOf(fs.readFileSync(filePath));
+        if (!dimensions || !dimensions.width || !dimensions.height) {
+          console.error(`Invalid dimensions for image ${file}`);
+          return null;
+        }
+        return {
+          src: `/fotogalerie/${file}`,
+          width: dimensions.width,
+          height: dimensions.height,
+        };
+      } catch (error) {
+        console.error(`Error processing image ${file}:`, error);
+        return null;
+      }
+    })
+    .filter(Boolean);
 }
