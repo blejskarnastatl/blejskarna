@@ -11,6 +11,8 @@ export const metadata: Metadata = {
 
 export default function GaleriePage() {
   const photos = LoadGalleryPhotos();
+  const validPhotos = photos.filter((photo) => photo !== null);
+  console.log('Photos loaded:', validPhotos.length);
 
-  return <GalleryClient photos={photos} />;
+  return <GalleryClient photos={validPhotos} />;
 }
