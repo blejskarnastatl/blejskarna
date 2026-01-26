@@ -580,7 +580,6 @@ export default function KosikPage() {
               </ol>
             </div>
 
-            {/* ✅ Souhlas s podmínkami */}
             <div
               className={styles.termsRow}
               data-terms-error={showTermsError ? "true" : undefined}
@@ -594,9 +593,14 @@ export default function KosikPage() {
                 />
                 <span>
                   Souhlasím s{" "}
-                  <Link href="/obchodni-podminky" className={styles.termsLink}>
+                  <a
+                    href="/obchodni-podminky"
+                    className={styles.termsLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     obchodními podmínkami
-                  </Link>
+                  </a>
                   .
                 </span>
               </label>
