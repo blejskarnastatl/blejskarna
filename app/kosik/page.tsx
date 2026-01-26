@@ -502,7 +502,7 @@ export default function KosikPage() {
               />
               {showEmailError && (
                 <div className={styles.fieldError}>
-                  {e1.length === 0 ? "E-mail je povinný." : "Zkontroluj prosím e-mail (vypadá neúplně)."}
+                  {e1.length === 0 ? "E-mail je povinný." : "Zkontroluj prosím e-mail."}
                 </div>
               )}
             </label>
@@ -529,6 +529,13 @@ export default function KosikPage() {
 
             <div className={styles.requiredNote}>
               <span className={styles.required}>*</span> Označené pole je povinné.
+            </div>
+
+            <div style={{ fontSize: "0.95rem", opacity: 0.85, marginBottom: "0.6rem" }}>
+              Ochrana osobních údajů:{" "}
+              <Link href="/gdpr" target="_blank">
+                zobrazit informace
+              </Link>.
             </div>
 
             <div className={styles.delivery}>
