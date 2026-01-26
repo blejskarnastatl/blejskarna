@@ -48,10 +48,11 @@ function isValidPhone(s: string) {
   const d = digitsCount(v);
   return v.length > 0 && d >= 9 && d <= 15;
 }
+
 const DIGITS_RE = /^\d*$/;
 
 function clampWish(n: number) {
-  if (!Number.isFinite(n)) return NAPRANI_MIN;
+  if (!Number.isFinite(n)) return Math.max(NAPRANI_MIN, Math.min(NAPRANI_MAX, NAPRANI_MIN));
   const floored = Math.floor(n);
   return Math.max(NAPRANI_MIN, Math.min(NAPRANI_MAX, floored));
 }
@@ -65,6 +66,12 @@ export default function KosikPage() {
   const [email, setEmail] = useState("");
   const [email2, setEmail2] = useState("");
   const [phone, setPhone] = useState("");
+
+  // Souhlas s OP
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [touchedTerms, setTouchedTerms] = useState(false);
+
+  // hodnota „na přání“: draft per položka (commit na blur/enter)
   const [wishDraft, setWishDraft] = useState<Record<string, string>>({});
 
   // touched / submitAttempted – pro UX
@@ -75,22 +82,28 @@ export default function KosikPage() {
   const [touchedEmail2, setTouchedEmail2] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
+  // init + cleanup draftů pro "na přání"
   useEffect(() => {
     setWishDraft((prev) => {
       const next = { ...prev };
+
       for (const it of items) {
         if (it.voucherId !== NAPRANI_VOUCHER_ID) continue;
         if (next[it.cartItemId] == null) {
-          const initial = Number.isFinite(it.unitPriceCzk) ? Math.floor(it.unitPriceCzk) : NAPRANI_MIN;
+          const initial = Number.isFinite(it.unitPriceCzk)
+            ? Math.floor(it.unitPriceCzk as number)
+            : NAPRANI_MIN;
           next[it.cartItemId] = String(Math.max(0, initial));
         }
       }
+
       // odstraň drafty pro smazané položky
       for (const id of Object.keys(next)) {
         if (!items.some((x) => x.cartItemId === id && x.voucherId === NAPRANI_VOUCHER_ID)) {
           delete next[id];
         }
       }
+
       return next;
     });
   }, [items]);
@@ -98,9 +111,8 @@ export default function KosikPage() {
   const commitWishForItem = (cartItemId: string) => {
     const raw = (wishDraft[cartItemId] ?? "").trim();
 
-    // prázdné -> default
     if (raw === "") {
-      const v = NAPRANI_MIN;
+      const v = clampWish(NAPRANI_MIN);
       setWishDraft((p) => ({ ...p, [cartItemId]: String(v) }));
       setUnitPrice(cartItemId, v);
       return v;
@@ -108,8 +120,10 @@ export default function KosikPage() {
 
     const n = Number(raw);
     const clamped = clampWish(n);
+
     setWishDraft((p) => ({ ...p, [cartItemId]: String(clamped) }));
     setUnitPrice(cartItemId, clamped);
+
     return clamped;
   };
 
@@ -118,8 +132,6 @@ export default function KosikPage() {
       const voucher = voucherById[it.voucherId];
       const isWish = it.voucherId === NAPRANI_VOUCHER_ID;
 
-      // Pozor: unitPriceCzk v UI bereme z it.unitPriceCzk (to je "committed" hodnota v cart store)
-      // Draft řeší jen input, commit proběhne blur/enter.
       const unitPrice = isWish
         ? Math.max(NAPRANI_MIN, Math.min(NAPRANI_MAX, Math.floor(it.unitPriceCzk || NAPRANI_MIN)))
         : Math.max(0, Math.floor(it.unitPriceCzk || 0));
@@ -176,10 +188,15 @@ export default function KosikPage() {
   const phoneOk = isValidPhone(phone);
   const showPhoneError = (touchedPhone || submitAttempted) && !phoneOk;
 
-  const canSubmit = !isEmpty && nameOk && phoneOk && emailOk && emailsMatch;
+  const termsOk = agreeTerms;
+  const showTermsError = (touchedTerms || submitAttempted) && !termsOk;
+
+  const canSubmit = !isEmpty && nameOk && phoneOk && emailOk && emailsMatch && termsOk;
 
   const submit = async () => {
     setSubmitAttempted(true);
+    setTouchedTerms(true);
+
     if (!canSubmit) return;
 
     // před odesláním commitni všechny wish položky, ať je v košíku jistota clampu
@@ -246,7 +263,8 @@ export default function KosikPage() {
 
     const el =
       document.querySelector(`.${styles.inputError}`) ||
-      document.querySelector(`[data-error="true"]`);
+      document.querySelector(`[data-error="true"]`) ||
+      document.querySelector(`[data-terms-error="true"]`);
     if (el instanceof HTMLElement) el.scrollIntoView({ behavior: "smooth", block: "center" });
   }, [submitAttempted, canSubmit]);
 
@@ -562,13 +580,41 @@ export default function KosikPage() {
               </ol>
             </div>
 
+            {/* ✅ Souhlas s podmínkami */}
+            <div
+              className={styles.termsRow}
+              data-terms-error={showTermsError ? "true" : undefined}
+            >
+              <label className={styles.termsLabel}>
+                <input
+                  type="checkbox"
+                  checked={agreeTerms}
+                  onChange={(e) => setAgreeTerms(e.target.checked)}
+                  onBlur={() => setTouchedTerms(true)}
+                />
+                <span>
+                  Souhlasím s{" "}
+                  <Link href="/obchodni-podminky" className={styles.termsLink}>
+                    obchodními podmínkami
+                  </Link>
+                  .
+                </span>
+              </label>
+
+              {showTermsError && (
+                <div className={styles.fieldError}>
+                  Pro pokračování je potřeba odsouhlasit obchodní podmínky.
+                </div>
+              )}
+            </div>
+
             <button type="button" className={styles.submit} disabled={!canSubmit} onClick={submit}>
               Odeslat objednávku
             </button>
 
             {!canSubmit && (
               <div className={styles.submitHint}>
-                Doplň prosím povinná pole a překontroluj shodu e-mailů. Košík nesmí být prázdný.
+                Doplň prosím povinná pole, překontroluj shodu e-mailů a odsouhlas podmínky. Košík nesmí být prázdný.
               </div>
             )}
 

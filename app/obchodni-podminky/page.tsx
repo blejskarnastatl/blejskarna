@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Obchodní podmínky | Blejskárna ŠTATL",
-  description: "Obchodní podmínky pro nákup dárkových poukazů Blejskárna ŠTATL.",
+  description: "Obchodní podmínky pro nákup dárkových poukazů do automyčky Blejskárna ŠTATL.",
   alternates: { canonical: "/obchodni-podminky" },
 };
 
@@ -11,6 +13,8 @@ export default function ObchodniPodminkyPage() {
     <div className="page-shell">
       <section className="legal">
         <h1>Obchodní podmínky e-shopu Blejskárna ŠTATL</h1>
+
+        NEJSOU HOTOVÉ!!!
 
         <h2>I. Základní ustanovení</h2>
         <ol>
@@ -241,11 +245,14 @@ export default function ObchodniPodminkyPage() {
             dotčena práva a povinnosti vzniklá po dobu účinnosti předchozího znění.
           </li>
           <li>
-            Tyto obchodní podmínky nabývají účinnosti dnem:{" "}
-            <strong>______. ______. 20__</strong>
+            Tyto obchodní podmínky nabývají účinnosti dnem{" "}
+            <strong>1. 1. 2026</strong>
           </li>
         </ol>
       </section>
+      <div className={styles.back}>
+        <Link href="/kosik">← Zpět do košíku</Link>
+      </div>
     </div>
   );
 }
