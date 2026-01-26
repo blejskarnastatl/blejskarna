@@ -26,30 +26,63 @@ const czk = new Intl.NumberFormat("cs-CZ", {
   maximumFractionDigits: 0,
 });
 
+// jen číslice (povolíme i prázdné během psaní)
+const DIGITS_RE = /^\d*$/;
+
+function clampWish(n: number) {
+  if (!Number.isFinite(n)) return NAPRANI_MIN;
+  const floored = Math.floor(n);
+  return Math.max(NAPRANI_MIN, Math.min(NAPRANI_MAX, floored));
+}
+
 export default function Page() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState<"left" | "right">("right");
   const [qty, setCarouselQty] = useState(1);
-  const [wishValue, setWishValue] = useState(NAPRANI_MIN);
-  const { addItem } = useCart();
 
+  // místo wishValue číslo držíme draft jako string (aby šlo psát bez přepisování)
+  const [wishDraft, setWishDraft] = useState<string>(String(NAPRANI_MIN));
+
+  const { addItem } = useCart();
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const selected = vouchers[index];
   const isNapranI = selected.id === NAPRANI_VOUCHER_ID;
 
+  const commitWishDraft = () => {
+    if (wishDraft.trim() === "") {
+      setWishDraft(String(NAPRANI_MIN));
+      return NAPRANI_MIN;
+    }
+
+    const n = Number(wishDraft);
+    const clamped = clampWish(n);
+    setWishDraft(String(clamped));
+    return clamped;
+  };
+
+  // Cena pro zobrazení / košík
   const unitPriceCzk = useMemo(() => {
     if (isNapranI) {
-      const n = Math.floor(Number(wishValue) || NAPRANI_MIN);
-      return Math.max(NAPRANI_MIN, Math.min(NAPRANI_MAX, n));
+      // během psaní neclampujeme, ale potřebujeme číslo pro výpočet:
+      // - pokud je prázdné / NaN => 0 (ať se nezobrazuje nesmysl)
+      // - při addToCart stejně commitneme
+      const raw = wishDraft.trim();
+      if (raw === "") return 0;
+      const n = Number(raw);
+      return Number.isFinite(n) ? Math.max(0, Math.floor(n)) : 0;
     }
+
     const price = Number(selected?.price ?? 0);
     return Number.isFinite(price) ? Math.max(0, Math.floor(price)) : 0;
-  }, [selected, isNapranI, wishValue]);
+  }, [selected, isNapranI, wishDraft]);
 
   const addToCart = () => {
-    addItem({ id: selected.id, unitPrice: unitPriceCzk }, qty);
+    // při přidání do košíku chci mít jistotu clampu pro "na přání"
+    const finalUnitPrice = isNapranI ? commitWishDraft() : unitPriceCzk;
+
+    addItem({ id: selected.id, unitPrice: finalUnitPrice }, qty);
     setCarouselQty(1);
     setIsModalOpen(true);
   };
@@ -81,7 +114,8 @@ export default function Page() {
 
         <div className={styles.voucherHowto}>
           <h2 className={styles.voucherSubHeading}>
-            <FaCheckCircle className={styles.subHeadingIcon} /> Všechny poukazy je možné zakoupit přímo v Blejskárně i bez objednání.
+            <FaCheckCircle className={styles.subHeadingIcon} /> Všechny poukazy je možné
+            zakoupit přímo v Blejskárně i bez objednání.
           </h2>
 
           <ol className={styles.voucherHowtoList}>
@@ -89,16 +123,14 @@ export default function Page() {
               Naklikáš si poukazy <strong>do košíku</strong>.
             </li>
             <li>
-              V košíku na sebe vyplníš kontakt, zvolíš způsob doručení a odešleš
-              objednávku.
+              V košíku na sebe vyplníš kontakt, zvolíš způsob doručení a odešleš objednávku.
             </li>
             <li>
               Na e-mail ti přijde potvrzení s <strong>QR kódem pro platbu</strong>.
             </li>
             <li>
-              Po přijetí platby <strong>voucher pošleme e-mailem</strong> nebo bude
-              připravený <strong>k vyzvednutí v Blejskárně</strong>, podle toho,
-              co si zvolíš.
+              Po přijetí platby <strong>voucher pošleme e-mailem</strong> nebo bude připravený{" "}
+              <strong>k vyzvednutí v Blejskárně</strong>, podle toho, co si zvolíš.
             </li>
           </ol>
         </div>
@@ -108,7 +140,11 @@ export default function Page() {
           onIndexChange={(i) => {
             setIndex(i);
             setCarouselQty(1);
-            if (vouchers[i].id === NAPRANI_VOUCHER_ID) setWishValue(NAPRANI_MIN);
+
+            // při přepnutí na "na přání" nastav default 200
+            if (vouchers[i].id === NAPRANI_VOUCHER_ID) {
+              setWishDraft(String(NAPRANI_MIN));
+            }
           }}
           direction={direction}
           onDirectionChange={setDirection}
@@ -125,21 +161,33 @@ export default function Page() {
             <div className={styles.wishPrice} aria-label="Hodnota poukazu">
               <label className={styles.fieldInline}>
                 <span>Hodnota:</span>
+
                 <input
                   className={styles.priceInput}
                   type="number"
                   inputMode="numeric"
-                  min={NAPRANI_MIN}
-                  max={NAPRANI_MAX}
-                  step={NAPRANI_STEP}
-                  value={unitPriceCzk}
+                  pattern="[0-9]*"
+                  // nepoužíváme min/max tady, protože clamp děláme až při commit
+                  // a během psaní nechceme přepisovat.
+                  value={wishDraft}
                   onChange={(e) => {
-                    const n = Math.floor(Number(e.target.value));
-                    if (!Number.isFinite(n)) return;
-                    const clamped = Math.max(NAPRANI_MIN, Math.min(NAPRANI_MAX, n));
-                    setWishValue(clamped);
+                    const v = e.target.value;
+                    // povolit jen číslice (a prázdné)
+                    if (!DIGITS_RE.test(v)) return;
+                    setWishDraft(v);
+                  }}
+                  onBlur={() => {
+                    commitWishDraft();
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      commitWishDraft();
+                      (e.currentTarget as HTMLInputElement).blur();
+                    }
                   }}
                 />
+
                 <span>Kč</span>
               </label>
             </div>
@@ -153,7 +201,9 @@ export default function Page() {
             >
               −
             </button>
+
             <span className={styles.voucherQtyNumber}>{qty}</span>
+
             <button
               type="button"
               onClick={() => setCarouselQty((q) => q + 1)}
@@ -163,25 +213,15 @@ export default function Page() {
             </button>
           </div>
 
-          <button
-            type="button"
-            className={styles.voucherAddBtn}
-            onClick={addToCart}
-          >
+          <button type="button" className={styles.voucherAddBtn} onClick={addToCart}>
             <FaCartPlus /> Do košíku
           </button>
         </div>
       </div>
 
       {isModalOpen && (
-        <div
-          className={styles.modalOverlay}
-          onClick={() => setIsModalOpen(false)}
-        >
-          <div
-            className={styles.modalCard}
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className={styles.modalOverlay} onClick={() => setIsModalOpen(false)}>
+          <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
             <button
               type="button"
               className={styles.modalClose}
