@@ -81,7 +81,7 @@ export default function KosikPage() {
       for (const it of items) {
         if (it.voucherId !== NAPRANI_VOUCHER_ID) continue;
         if (next[it.cartItemId] == null) {
-          const initial = Number.isFinite(it.unitPriceCzk) ? Math.floor(it.unitPriceCzk) : WISH_DEFAULT;
+          const initial = Number.isFinite(it.unitPriceCzk) ? Math.floor(it.unitPriceCzk) : NAPRANI_MIN;
           next[it.cartItemId] = String(Math.max(0, initial));
         }
       }
