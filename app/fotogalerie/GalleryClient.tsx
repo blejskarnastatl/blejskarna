@@ -16,6 +16,10 @@ interface GalleryClientProps {
 
 export default function GalleryClient({ photos }: GalleryClientProps) {
   const [index, setIndex] = useState(-1);
+  const slides = photos.map(photo => ({
+    src: photo.src,
+    alt: photo.title || "Gallery image",
+  }));
   return (
     <div>
       <RowsPhotoAlbum photos={photos} 
@@ -23,7 +27,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
         onClick={({ index }) => setIndex(index)}
         componentsProps={{
         image: {
-          loading: "lazy",
+          loading: "eager",
         },
       }}
       />
@@ -32,7 +36,7 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
           index={index}
           open={index >= 0}
           close={() => setIndex(-1)}
-          slides={photos}
+          slides={slides}
           plugins={[Fullscreen, Thumbnails, Zoom]}
         />
       )}
