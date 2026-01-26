@@ -48,6 +48,13 @@ function isValidPhone(s: string) {
   const d = digitsCount(v);
   return v.length > 0 && d >= 9 && d <= 15;
 }
+const DIGITS_RE = /^\d*$/;
+
+function clampWish(n: number) {
+  if (!Number.isFinite(n)) return NAPRANI_MIN;
+  const floored = Math.floor(n);
+  return Math.max(NAPRANI_MIN, Math.min(NAPRANI_MAX, floored));
+}
 
 export default function KosikPage() {
   const { items, setQty, setUnitPrice, removeItem, clear } = useCart();
@@ -58,6 +65,7 @@ export default function KosikPage() {
   const [email, setEmail] = useState("");
   const [email2, setEmail2] = useState("");
   const [phone, setPhone] = useState("");
+  const [wishDraft, setWishDraft] = useState<Record<string, string>>({});
 
   // touched / submitAttempted – pro UX
   const [touchedFirstName, setTouchedFirstName] = useState(false);
@@ -67,16 +75,56 @@ export default function KosikPage() {
   const [touchedEmail2, setTouchedEmail2] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
+  useEffect(() => {
+    setWishDraft((prev) => {
+      const next = { ...prev };
+      for (const it of items) {
+        if (it.voucherId !== NAPRANI_VOUCHER_ID) continue;
+        if (next[it.cartItemId] == null) {
+          const initial = Number.isFinite(it.unitPriceCzk) ? Math.floor(it.unitPriceCzk) : WISH_DEFAULT;
+          next[it.cartItemId] = String(Math.max(0, initial));
+        }
+      }
+      // odstraň drafty pro smazané položky
+      for (const id of Object.keys(next)) {
+        if (!items.some((x) => x.cartItemId === id && x.voucherId === NAPRANI_VOUCHER_ID)) {
+          delete next[id];
+        }
+      }
+      return next;
+    });
+  }, [items]);
+
+  const commitWishForItem = (cartItemId: string) => {
+    const raw = (wishDraft[cartItemId] ?? "").trim();
+
+    // prázdné -> default
+    if (raw === "") {
+      const v = NAPRANI_MIN;
+      setWishDraft((p) => ({ ...p, [cartItemId]: String(v) }));
+      setUnitPrice(cartItemId, v);
+      return v;
+    }
+
+    const n = Number(raw);
+    const clamped = clampWish(n);
+    setWishDraft((p) => ({ ...p, [cartItemId]: String(clamped) }));
+    setUnitPrice(cartItemId, clamped);
+    return clamped;
+  };
+
   const normalized = useMemo(() => {
     return items.map((it) => {
       const voucher = voucherById[it.voucherId];
       const isWish = it.voucherId === NAPRANI_VOUCHER_ID;
 
+      // Pozor: unitPriceCzk v UI bereme z it.unitPriceCzk (to je "committed" hodnota v cart store)
+      // Draft řeší jen input, commit proběhne blur/enter.
       const unitPrice = isWish
-        ? Math.max(NAPRANI_MIN, Math.min(NAPRANI_MAX, it.unitPriceCzk || NAPRANI_MIN))
-        : it.unitPriceCzk;
+        ? Math.max(NAPRANI_MIN, Math.min(NAPRANI_MAX, Math.floor(it.unitPriceCzk || NAPRANI_MIN)))
+        : Math.max(0, Math.floor(it.unitPriceCzk || 0));
 
-      const qty = it.qty;
+      const qty = Math.max(1, Math.floor(it.qty || 1));
 
       return {
         cartItemId: it.cartItemId,
@@ -128,12 +176,16 @@ export default function KosikPage() {
   const phoneOk = isValidPhone(phone);
   const showPhoneError = (touchedPhone || submitAttempted) && !phoneOk;
 
-  // doručení: pickup pořád chce email? ty ho chceš kvůli potvrzení, takže nechávám email povinný
   const canSubmit = !isEmpty && nameOk && phoneOk && emailOk && emailsMatch;
 
   const submit = async () => {
     setSubmitAttempted(true);
     if (!canSubmit) return;
+
+    // před odesláním commitni všechny wish položky, ať je v košíku jistota clampu
+    for (const it of normalized) {
+      if (it.isWish) commitWishForItem(it.cartItemId);
+    }
 
     const order = {
       createdAt: new Date().toISOString(),
@@ -250,21 +302,32 @@ export default function KosikPage() {
                           <div className={styles.wishPrice}>
                             <label className={styles.fieldInline}>
                               <span className={styles.inlineLabel}>Hodnota:</span>
+
                               <input
                                 className={styles.priceInput}
                                 type="number"
                                 inputMode="numeric"
-                                min={NAPRANI_MIN}
-                                max={NAPRANI_MAX}
                                 step={NAPRANI_STEP}
-                                value={it.unitPriceCzk}
+                                pattern="[0-9]*"
+                                value={wishDraft[it.cartItemId] ?? String(it.unitPriceCzk ?? NAPRANI_MIN)}
                                 onChange={(e) => {
-                                  const n = Math.floor(Number(e.target.value));
-                                  if (!Number.isFinite(n)) return;
-                                  const clamped = Math.max(NAPRANI_MIN, Math.min(NAPRANI_MAX, n));
-                                  setUnitPrice(it.cartItemId, clamped);
+                                  const v = e.target.value;
+                                  if (!DIGITS_RE.test(v)) return; // jen čísla / prázdné
+                                  setWishDraft((p) => ({ ...p, [it.cartItemId]: v }));
                                 }}
+                                onBlur={() => {
+                                  commitWishForItem(it.cartItemId);
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    commitWishForItem(it.cartItemId);
+                                    (e.currentTarget as HTMLInputElement).blur();
+                                  }
+                                }}
+                                aria-label="Hodnota poukazu na přání"
                               />
+
                               <span className={styles.inlineLabel}>Kč</span>
                             </label>
                           </div>
@@ -499,12 +562,7 @@ export default function KosikPage() {
               </ol>
             </div>
 
-            <button
-              type="button"
-              className={styles.submit}
-              disabled={!canSubmit}
-              onClick={submit}
-            >
+            <button type="button" className={styles.submit} disabled={!canSubmit} onClick={submit}>
               Odeslat objednávku
             </button>
 
