@@ -1,0 +1,188 @@
+/* page.module.css */
+
+/* GRID balíčků */
+
+.content {
+  width: 100%;
+  min-width: 0;
+}
+
+.grid {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+/* KARTA */
+.card {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 22px;
+  padding: 1.15rem 1.15rem 1rem;
+  box-shadow: 1px 5px 3px rgba(0, 0, 0, 0.85);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; /* aby šla cena dolů */
+  min-width: 0;
+}
+
+/* NADPIS KARTY */
+.title {
+  margin: 0 0 0.8rem 0;
+  text-align: center;
+  font-weight: 850;
+  font-size: 1.7rem;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  color: #000;
+  text-shadow: none; /* žádné pozadí/shadow */
+}
+
+.highlight {
+  position: relative;
+  display: inline-block;
+  padding: 0.08em 0.35em 0.12em;
+  margin-left: 0.18em;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: var(--blejsk-orange);
+  z-index: 0;
+  -webkit-text-stroke: 1px rgba(0,0,0,0.25);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+}
+
+/* komiksová placka za textem */
+.highlight::before {
+  content: "";
+  position: absolute;
+  inset: -0.38em -0.28em -0.14em -0.28em;
+  background: #ffffff;
+  border: 2px solid #000;
+  border-radius: 999px;
+  transform: rotate(-2deg);
+  z-index: -1;
+  box-shadow: 2px 3px 0 rgba(0,0,0,0.9);
+}
+
+/* lehký “halftone” dot pattern uvnitř bubliny */
+.highlight::after {
+  content: "";
+  position: absolute;
+  inset: -0.14em -0.22em -0.12em -0.22em;
+  border-radius: 999px;
+  background-image: radial-gradient(rgba(0,0,0,0.22) 1px, transparent 1px);
+  background-size: 6px 6px;
+  opacity: 0.28;
+  transform: rotate(-2deg);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* SEZNAM SLUŽEB */
+.list {
+  margin: 0;
+  padding-left: 1.05rem;
+  display: grid;
+  gap: 0.55rem;
+  font-size: 1.15rem;
+  font-weight: 400;
+  line-height: 1.25;
+
+  flex-grow: 1; /* natáhne prostředek a cenu posune dolů */
+}
+
+.list li strong {
+  font-weight: 650;
+}
+
+/* CENA DOLE */
+.price {
+  margin-top: 1.2rem;
+  padding-top: 0.6rem;
+  border-top: 2px dashed rgba(0, 0, 0, 0.25);
+
+  text-align: center;
+  font-weight: 900;
+  font-size: 2.4rem;
+  letter-spacing: 0.03em;
+  color: var(--blejsk-blue-hover);
+}
+
+/* NA PŘÁNÍ sekce */
+.customBox {
+  margin-top: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 22px;
+  padding: 1.15rem 1.15rem 1rem;
+  box-shadow: 1px 5px 3px rgba(0, 0, 0, 0.85);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+
+  text-align: center;
+}
+
+.customBox p {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.customHighlight {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 1.15rem;
+  font-weight: 850;
+  color: var(--blejsk-blue-hover);
+  position: relative;
+  z-index: 1;
+}
+
+/* “ručně podtrženo” */
+.customHighlight::after {
+  content: "";
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  bottom: -5px;
+  height: 6px;
+  background: rgba(255, 153, 0, 0.85);
+  border-radius: 999px;
+  transform: rotate(-2deg);
+  z-index: -1;
+}
+
+@media (max-width: 900px) and (min-width: 701px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-self: center;
+  }
+  .card:nth-child(3) {
+    grid-column: 1 / -1;     
+    justify-self: center;   
+    width: min(400px, 100%);
+  }
+}
+
+@media (max-width: 700px) {
+  .content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;          
+    width: 100%;
+    min-width: 0;
+  }
+
+  .grid {
+    display: contents;
+  }
+
+  .card,
+  .customBox {
+    width: 100%;
+    margin: 0;
+    min-width: 0;
+  }
+}
