@@ -32,7 +32,7 @@
 
 .voucherSubHeading {
   font-size: 1.4rem;
-  font-weight:750;
+  font-weight:650;
   color: var(--blejsk-blue-hover);
   text-align: center;
   margin-bottom: 1rem;
@@ -54,7 +54,7 @@
 }
 
 .voucherHowtoList strong {
-  font-weight: 900;
+  font-weight: 850;
 }
 
 /* ===== Akce pod carouselem ===== */
@@ -102,7 +102,7 @@
 }
 
 .priceInput {
-  width: 4.1rem;
+  width: 6rem;
   height: 31px;
   border-radius: 999px;
   border: 2px solid rgba(0, 0, 0, 0.20);

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div className="page-shell">
+    <main className={styles.page}>
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <Image
@@ -33,6 +33,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
