@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "GDPR | Blejskárna ŠTATL",
+  description: "Zásady zpracování ochrany osobních údajů při nákupu dárkových poukazů do automyčky Blejskárna ŠTATL.",
+  alternates: { canonical: "/obchodni-podminky" },
+};
+
 export default function OchranaOsobnichUdajuPage() {
   return (
     <div className="page-shell">

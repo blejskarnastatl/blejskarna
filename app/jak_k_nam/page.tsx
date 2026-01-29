@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Jak k nám",
-  description: "Dárkové poukazy do Blejskárny - udělejte radost čistým autem.",
+  title: "Jak k nám | Blejskárna ŠTATL",
+  description: "Dárkové poukazy do ruční myčky aut v Brně - udělejte radost čistým autem.",
   alternates: {
     canonical: "/jak-k-nam",
   },
@@ -46,7 +46,6 @@ export default function JakKNamPage() {
           </ol>
         </div>
 
-        {/* PRAVÝ SLOUPEC */}
         <div className={styles.howtoRight}>
           <div className={styles.howtoMapCard}>
             {/* FOTO */}
