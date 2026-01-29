@@ -1,10 +1,8 @@
 export default function OchranaOsobnichUdajuPage() {
   return (
     <div className="page-shell">
-      <section className="highlight" style={{ maxWidth: 900, margin: "2rem auto" }}>
+      <section style={{ maxWidth: 900, margin: "2rem auto" }}>
         <h1>Ochrana osobních údajů</h1>
-
-        NENÍ HOTOVÉ!!!
 
         <p>
           Provozovatelem webu a správcem osobních údajů je:
@@ -34,7 +32,7 @@ export default function OchranaOsobnichUdajuPage() {
         </p>
         <ul>
           <li>vyřízení objednávky</li>
-          <li>zaslání voucheru nebo domluvě vyzvednutí</li>
+          <li>zaslání zboží nebo domluvě vyzvednutí</li>
           <li>komunikaci ohledně platby</li>
         </ul>
 
@@ -46,7 +44,7 @@ export default function OchranaOsobnichUdajuPage() {
         <h2>Doba uchování</h2>
         <p>
           Údaje uchováváme pouze po dobu nezbytnou k vyřízení objednávky a splnění
-          zákonných povinností (např. účetnictví).
+          zákonných povinností.
         </p>
 
         <h2>Vaše práva</h2>

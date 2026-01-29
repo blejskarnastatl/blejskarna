@@ -14,8 +14,6 @@ export default function ObchodniPodminkyPage() {
       <section className="legal">
         <h1>Obchodní podmínky e-shopu Blejskárna ŠTATL</h1>
 
-        NEJSOU HOTOVÉ!!!
-
         <h2>I. Základní ustanovení</h2>
         <ol>
           <li>
@@ -62,7 +60,7 @@ export default function ObchodniPodminkyPage() {
         <h2>II. Informace o poukazech a cenách</h2>
         <ol>
           <li>
-            Předmětem koupě jsou dárkové poukazy (vouchery) na služby Blejskárny
+            Předmětem koupě jsou dárkové poukazy (vouchery) na služby ruční myčky aut Blejskárny
             (dále jen „poukaz“). Informace o poukazech a jejich cenách jsou
             uvedeny u jednotlivých poukazů na webu.
           </li>
@@ -88,7 +86,7 @@ export default function ObchodniPodminkyPage() {
             registrace.
           </li>
           <li>
-            Při objednávce kupující zvolí poukaz(y), množství, případně hodnotu
+            Při objednávce kupující volí poukazy, množství, případně hodnotu
             poukazu „na přání“, a způsob doručení (e-mailem / vyzvednutí).
           </li>
           <li>
@@ -192,8 +190,7 @@ export default function ObchodniPodminkyPage() {
         <h2>VII. Práva z vadného plnění</h2>
         <ol>
           <li>
-            Prodávající odpovídá kupujícímu, že poukaz bude dodán ve sjednané podobě
-            (např. správná hodnota, správné údaje, funkční kód/identifikace apod.).
+            Prodávající odpovídá kupujícímu, že poukaz bude dodán ve sjednané podobě.
           </li>
           <li>
             Pokud kupující zjistí vadu (např. nesprávná hodnota, nefunkční poukaz, chybně
