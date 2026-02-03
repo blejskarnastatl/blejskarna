@@ -1,0 +1,6 @@
+.back a {
+  text-decoration: underline;
+  color: var(--blejsk-blue-hover);
+  font-weight: 800;
+  font-size: var(--font-size-lg);
+}

@@ -1,0 +1,51 @@
+/* ===== HERO ÚVOD ===== */
+
+.hero {
+  margin-top: 2rem;
+  position: relative; /* kotva pro auto */
+  padding-bottom: clamp(160px, 20vh, 350px);
+}
+
+.heroInner {
+  display: grid;
+}
+
+/* hlavní ilustrace */
+.heroMainImage {
+  width: min(100%, 920px);
+  height: auto;
+  display: block;
+}
+
+/* AUTO: stále vpravo dole v rámci hero */
+.heroCarWrapper {
+  position: absolute;
+  right: -6vw;
+  bottom: 0;
+  transform: translateY(clamp(30px, (5vh + 5px), 250px));
+  width: min(100%, 380px);
+  pointer-events: none;
+}
+
+.heroCarImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===== MOBIL ===== */
+@media (max-width: 980px) {
+
+  .heroCarWrapper {
+    right: 0;
+  }
+
+  .hero {
+    margin-top: 1.5rem;
+    padding-bottom: clamp(160px, 20vh, 350px);
+  }
+
+  .heroCarWrapper {
+    width: min(300px, 70vw);
+  }
+}

@@ -3,7 +3,7 @@ import GalleryClient from "./GalleryClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Fotogalerie",
+  title: "Fotogalerie | Blejskárna ŠTATL",
   alternates: {
     canonical: "/fotogalerie",
   },
@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 
 export default function GaleriePage() {
   const photos = LoadGalleryPhotos();
-
-  return <GalleryClient photos={photos} />;
+  const validPhotos = photos.filter((photo) => photo !== null);
+  console.log('Photos loaded:', validPhotos.length);
+  return <GalleryClient photos={validPhotos} />;
 }

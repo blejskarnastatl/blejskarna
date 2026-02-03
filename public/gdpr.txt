@@ -1,0 +1,60 @@
+Zásady ochrany osobních údajů (GDPR)
+1. Kdo je správcem údajů
+
+Správcem osobních údajů je provozovatel webu Blejskárna
+(dále jen „správce“).
+
+Kontaktní e-mail: doplň si svůj e-mail
+Telefon: doplň si telefon (pokud chceš)
+
+2. Jaké osobní údaje zpracováváme
+
+Zpracováváme pouze údaje nezbytné pro vyřízení objednávky:
+
+jméno a příjmení
+
+e-mailová adresa
+
+telefonní číslo
+
+informace o objednaných poukazech
+
+Nezpracováváme adresu bydliště ani jiné nadbytečné údaje.
+
+3. Za jakým účelem údaje používáme
+
+Vaše údaje používáme pouze za účelem:
+
+vyřízení objednávky poukazů
+
+zaslání platebních údajů a voucherů
+
+případné komunikace ohledně objednávky
+
+Údaje nejsou využívány k marketingovým účelům a nejsou předávány třetím stranám.
+
+4. Jak dlouho údaje uchováváme
+
+Osobní údaje uchováváme po dobu nezbytnou k vyřízení objednávky a splnění zákonných povinností (zejména účetních a daňových).
+
+5. Technické ukládání dat
+
+Web využívá technické úložiště v prohlížeči (localStorage) za účelem:
+
+uchování obsahu košíku
+
+zobrazení potvrzení objednávky
+
+Tato data slouží výhradně k funkčnosti webu.
+
+6. Vaše práva
+
+Máte právo:
+
+požádat o přístup ke svým údajům
+
+požádat o jejich opravu nebo výmaz
+
+vznést námitku proti zpracování
+
+V případě dotazů nás kontaktujte na uvedeném e-mailu.

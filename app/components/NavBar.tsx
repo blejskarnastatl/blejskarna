@@ -1,6 +1,11 @@
 "use client";
 
+import styles from "./NavBar.module.css";
 import Image from "next/image";
+import Link from "next/link";
+import { FaShoppingCart } from "react-icons/fa";
+import { useCart } from "./cart";
+import { useEffect, useState } from "react";
 
 const navLinks = [
   { href: "/", label: "O nás" },
@@ -11,38 +16,111 @@ const navLinks = [
 ];
 
 export default function NavBar() {
-  return (
-    <header className="site-nav-wrapper">
-      <div className="site-nav">
+  const { totalQty } = useCart();
 
-        {/* Logo vlevo */}
-        <div className="nav-logo">
+  const [mounted, setMounted] = useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setMounted(true), []);
+
+  const qty = mounted ? totalQty : 0;
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // zavření menu na Escape
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
+
+  // (volitelné) zamknout scroll pozadí při otevřeném menu
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [menuOpen]);
+
+  return (
+    <header className={styles.siteNavWrapper}>
+      <div className={styles.siteNav}>
+        <div className={styles.navLogo}>
           <Image
             src="/LOGO-blejskarna.svg"
             alt="Blejskárna logo"
             width={200}
             height={200}
+            priority
           />
         </div>
 
-        {/* Pravá část: telefon + menu */}
-        <div className="nav-phone">
-          <a
-            href="tel:+420601006076"
-            className="nav-pill nav-pill--highlight"
-          >
-            Chytni blejsk 📞+420 601 006 076
-          </a>
+        <div className={styles.navPhone}>
+          <div className={styles.navTopRow}>
+            <a
+              href="tel:+420601006076"
+              className={`${styles.navPill} ${styles.navPillHighlight}`}
+            >
+              <span className={styles.phoneText}>Chytni blejsk </span>
+              <span className={styles.phoneNumber}>📞+420 601 006 076</span>
+            </a>
 
-          <nav className="nav-menu">
+            <div className={styles.topActions}>
+              <Link href="/kosik" className={styles.cartPill} aria-label="Košík">
+                <FaShoppingCart />
+                <span
+                  className={styles.cartBadge}
+                  style={{ display: qty > 0 ? "inline-flex" : "none" }}
+                  suppressHydrationWarning
+                >
+                  {qty}
+                </span>
+              </Link>
+
+              <button
+                type="button"
+                className={styles.menuButton}
+                aria-label={menuOpen ? "Zavřít menu" : "Otevřít menu"}
+                aria-expanded={menuOpen}
+                aria-controls="main-menu"
+                onClick={() => setMenuOpen((v) => !v)}
+              >
+                <span className={styles.menuIcon} aria-hidden="true">
+                  ☰
+                </span>
+              </button>
+            </div>
+          </div>
+
+          {menuOpen && (
+            <button
+              type="button"
+              className={styles.backdrop}
+              aria-label="Zavřít menu"
+              onClick={() => setMenuOpen(false)}
+            />
+          )}
+
+          <nav
+            id="main-menu"
+            className={`${styles.navMenu} ${menuOpen ? styles.navMenuOpen : ""}`}
+          >
             {navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="nav-pill">
+              <Link
+                key={link.href}
+                href={link.href}
+                className={styles.navPill}
+                onClick={() => setMenuOpen(false)}
+              >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
-
       </div>
     </header>
   );

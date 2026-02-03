@@ -1,52 +1,33 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { vouchers } from "@/app/data/vouchers";
+import styles from "../poukazy/VoucherCarousel.module.css";
 
-const vouchers = [
-  {
-    src: "/poukazy/v1- fest.svg",
-    alt: "Dárkový poukaz FEST",
-    title: "FEST",
-  },
-  {
-    src: "/poukazy/v1- grunt.svg",
-    alt: "Dárkový poukaz GRUNT",
-    title: "GRUNT",
-  },
-  {
-    src: "/poukazy/v1- mrte.svg",
-    alt: "Dárkový poukaz DO MRTĚ",
-    title: "DO MRTĚ",
-  },
-  {
-    src: "/poukazy/v1 - prani.svg",
-    alt: "Dárkový poukaz NA PŘÁNÍ",
-    title: "NA PŘÁNÍ",
-  },
-];
-
-export default function VoucherCarousel() {
-  const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState<"left" | "right">("right");
-
+export default function VoucherCarousel({
+  index,
+  onIndexChange,
+  direction,
+  onDirectionChange,
+}: {
+  index: number;
+  onIndexChange: (nextIndex: number) => void;
+  direction: "left" | "right";
+  onDirectionChange: (dir: "left" | "right") => void;
+}) {
   const prev = () => {
-    setDirection("left");
-    setIndex((prev) => (prev === 0 ? vouchers.length - 1 : prev - 1));
+    onDirectionChange("left");
+    onIndexChange(index === 0 ? vouchers.length - 1 : index - 1);
   };
 
   const next = () => {
-    setDirection("right");
-    setIndex((prev) => (prev === vouchers.length - 1 ? 0 : prev + 1));
+    onDirectionChange("right");
+    onIndexChange(index === vouchers.length - 1 ? 0 : index + 1);
   };
 
   return (
-    <div className="voucher-carousel">
-      <h1 className="voucher-heading">Dárkové lajstra? Máme.</h1>
-      <p className="voucher-subtext">
-        <a href="tel:+420601006076"> Máš vybráno? Volej 👉📞+420 601 006 076</a>
-      </p>
-       {/* 🔥 skrytý preloader – načte všechny 4 obrázky hned po otevření stránky */}
+    <div>
+      {/* preloader */}
       <div aria-hidden="true" style={{ height: 0, overflow: "hidden" }}>
         {vouchers.map((v) => (
           <Image
@@ -55,15 +36,15 @@ export default function VoucherCarousel() {
             alt=""
             width={10}
             height={10}
-            priority={v.src === vouchers[0].src} // první poukaz má prioritu
+            priority={v.src === vouchers[0].src}
           />
         ))}
       </div>
 
-      <div className="voucher-frame">
+      <div className={styles.frame}>
         <button
           type="button"
-          className="voucher-arrow voucher-arrow--left"
+          className={`${styles.arrow} ${styles.arrowLeft}`}
           onClick={prev}
           aria-label="Předchozí poukaz"
         >
@@ -72,25 +53,22 @@ export default function VoucherCarousel() {
 
         <div
           key={index}
-          className={
-            "voucher-image-wrapper " +
-            (direction === "right"
-              ? "voucher-slide-right"
-              : "voucher-slide-left")
-          }
+          className={`${styles.imageWrapper} ${
+            direction === "right" ? styles.slideRight : styles.slideLeft
+          }`}
         >
           <Image
             src={vouchers[index].src}
             alt={vouchers[index].alt}
             width={750}
             height={400}
-            className="voucher-image"
+            className={styles.image}
           />
         </div>
 
         <button
           type="button"
-          className="voucher-arrow voucher-arrow--right"
+          className={`${styles.arrow} ${styles.arrowRight}`}
           onClick={next}
           aria-label="Další poukaz"
         >
@@ -98,18 +76,16 @@ export default function VoucherCarousel() {
         </button>
       </div>
 
-      <div className="voucher-dots">
+      <div className={styles.dots}>
         {vouchers.map((v, i) => (
           <button
             key={v.title}
             type="button"
-            className={
-              "voucher-dot" + (i === index ? " voucher-dot--active" : "")
-            }
+            className={`${styles.dot} ${i === index ? styles.dotActive : ""}`}
             onClick={() => {
-              if (i > index) setDirection("right");
-              if (i < index) setDirection("left");
-              setIndex(i);
+              if (i > index) onDirectionChange("right");
+              if (i < index) onDirectionChange("left");
+              onIndexChange(i);
             }}
             aria-label={`Zobrazit poukaz ${v.title}`}
           />
