@@ -31,7 +31,6 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
         },
       }}
       />
-      {index >= 0 && (
 <Lightbox
   index={index}
   open={index >= 0}
