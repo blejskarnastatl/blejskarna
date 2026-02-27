@@ -8,3 +8,8 @@ export const metadata: Metadata = {
     canonical: "/fotogalerie",
   },
 };
+
+export default function GalleryPage() {
+  const photos = LoadGalleryPhotos();
+  return <GalleryClient photos={photos} />;
+}
