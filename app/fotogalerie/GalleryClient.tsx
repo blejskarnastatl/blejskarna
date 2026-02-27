@@ -32,14 +32,13 @@ export default function GalleryClient({ photos }: GalleryClientProps) {
       }}
       />
       {index >= 0 && (
-        <Lightbox
-          index={index}
-          open={index >= 0}
-          close={() => setIndex(-1)}
-          slides={slides}
-          plugins={[Fullscreen, Thumbnails, Zoom]}
-        />
-      )}
+<Lightbox
+  index={index}
+  open={index >= 0}
+  close={() => setIndex(-1)}
+  slides={slides}
+  plugins={[Fullscreen, Thumbnails, Zoom]}
+/>  
     </div>
   );
 }
