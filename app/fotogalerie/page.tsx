@@ -1,13 +1,10 @@
-import dynamic from "next/dynamic";
 import LoadGalleryPhotos from "./GalleryPhotoLoader";
+import GalleryClient from "./GalleryClient";
+import type { Metadata } from "next";
 
-const GalleryClient = dynamic(() => import("./GalleryClient"), {
-  ssr: false,
-});
-
-export default function GaleriePage() {
-  const photos = LoadGalleryPhotos();
-  const validPhotos = photos.filter((photo) => photo !== null);
-
-  return <GalleryClient photos={validPhotos} />;
-}
+export const metadata: Metadata = {
+  title: "Fotogalerie | Blejskárna ŠTATL",
+  alternates: {
+    canonical: "/fotogalerie",
+  },
+};
