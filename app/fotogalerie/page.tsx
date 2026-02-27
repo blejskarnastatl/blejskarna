@@ -1,9 +1,5 @@
 import LoadGalleryPhotos from "./GalleryPhotoLoader";
-import dynamic from "next/dynamic";
-
-const GalleryClient = dynamic(() => import("./GalleryClient"), {
-  ssr: false,
-});
+import GalleryClient from "./GalleryClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
