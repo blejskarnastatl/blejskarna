@@ -17,34 +17,20 @@ interface GalleryClientProps {
 
 export default function GalleryClient({ photos }: GalleryClientProps) {
   const [index, setIndex] = useState(-1);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const slides = photos.map(photo => ({
     src: photo.src,
     alt: photo.title || "Gallery image",
   }));
 
-  if (!mounted) {
-    return null;
-  }
-
   return (
-    <div>
-      <RowsPhotoAlbum 
-        photos={photos} 
-        defaultContainerWidth={1000}  
+    <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+      <RowsPhotoAlbum
+        photos={photos}
+        breakpoints={[300, 600, 900, 1200]}
         onClick={({ index }) => setIndex(index)}
-        componentsProps={{
-          image: {
-            loading: "eager",
-          },
-        }}
       />
-      
+
       <Lightbox
         index={index}
         open={index >= 0}
