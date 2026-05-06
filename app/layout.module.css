@@ -97,18 +97,8 @@
   margin-bottom: 0.5rem;
 }
 
-.footerHour {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem;
-  text-decoration: none;
-  color: rgba(0, 0, 0);
-  padding: 0.25rem 0;
-}
-
-.footerHour:hover {
-  color: var(--blejsk-yellow-dots);
+.footerHours p {
+  margin: 0.4rem 0;
 }
 
 /* --- Responsivita footeru --- */
