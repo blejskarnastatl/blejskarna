@@ -92,7 +92,7 @@ export default function RootLayout({
               </div>
 
                             <div className={styles.footerHours}>
-                <h4>Otvrírací hodiny</h4>
+                <h4>Otvírací hodiny</h4>
 
                <p>
                   Po-Pá - 7-17
