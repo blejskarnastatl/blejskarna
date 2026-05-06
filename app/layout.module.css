@@ -86,6 +86,31 @@
   color: var(--blejsk-yellow-dots);
 }
 
+/* pravý sloupec – sociální odkazy */
+.footerHours {
+  margin-bottom: 1.4rem;
+}
+
+.footerHours h4 {
+  font-weight: 800;
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.footerHour {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  text-decoration: none;
+  color: rgba(0, 0, 0);
+  padding: 0.25rem 0;
+}
+
+.footerHour:hover {
+  color: var(--blejsk-yellow-dots);
+}
+
 /* --- Responsivita footeru --- */
 @media (max-width: 900px) {
   .footer {
