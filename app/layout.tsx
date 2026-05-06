@@ -90,6 +90,22 @@ export default function RootLayout({
                   Firmy.cz
                 </a>
               </div>
+
+                            <div className={styles.footerHours}>
+                <h4>Otvrírací hodiny</h4>
+
+               <p>
+                  Po-Pá - 7-17
+                </p>
+
+               <p>
+                  So - Dle domluvy
+                </p>
+
+                <p>
+                  Ne - Zavřeno
+                </p>
+              </div>
             </div>
           </footer>
         </CartProvider>
