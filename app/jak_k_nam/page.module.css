@@ -39,7 +39,7 @@
 }
 .howtoHours {
   margin-top: 1rem;
-  margin: 0;
+  margin: 1rem;
   padding-left: 1.3rem;
   font-size: var(--font-size-base);
   font-weight: 650;
@@ -143,6 +143,7 @@
 
   .howtoLeft {
     text-align: center;
+    gap: 1rem;
   }
 
   .howtoMapFrame iframe {
