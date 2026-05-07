@@ -45,13 +45,13 @@ export default function JakKNamPage() {
             </li>
           </ol>
 
-          <div className={styles.howtoSteps}>
-            <p>
+          <div className={styles.howtoLeft}>
+            <p className={styles.howtoSteps}>
               <span className={styles.howtoUnderline}>Otvírací doba:</strong></span>
             </p>
-            <p>Po-Pá: 7:00 - 17:00</p>
-            <p>So: Dle domluvy</p>
-            <p>Ne: Zavřeno</p>
+            <p className={styles.howtoSteps}>Po-Pá: 7:00 - 17:00</p>
+            <p className={styles.howtoSteps}>So: Dle domluvy</p>
+            <p className={styles.howtoSteps}>Ne: Zavřeno</p>
           </div>
         </div>
 
