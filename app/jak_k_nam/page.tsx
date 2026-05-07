@@ -46,11 +46,11 @@ export default function JakKNamPage() {
           </ol>
 
           <div className={styles.howtoSteps}>
-            <p style={{ marginBottom: "0.55rem" }}>
-              <span className="highlight"><strong>Otvírací doba:</strong></span>
+            <p>
+              <span className={styles.howtoUnderline}>Otvírací doba:</strong></span>
             </p>
-            <p style={{ marginBottom: "0.55rem" }}>Po-Pá: 7:00 - 17:00</p>
-            <p style={{ marginBottom: "0.55rem" }}>So: Dle domluvy</p>
+            <p>Po-Pá: 7:00 - 17:00</p>
+            <p>So: Dle domluvy</p>
             <p>Ne: Zavřeno</p>
           </div>
         </div>
