@@ -37,6 +37,9 @@
 .howtoSteps li {
   margin: 0.55rem 0;
 }
+.howtoSteps p {
+  margin: 0.55rem 0;
+}
 
 .howtoUnderline {
   display: inline-block;
