@@ -24,7 +24,7 @@ export default function JakKNamPage() {
             <li>
               Chytni si čas blejsku na{" "}
               <a className="highlight" href="tel:+420601006076">
-                +420&nbsp;601&nbsp;006&nbsp;076
+                +420 601 006 076
               </a>
               .
             </li>
