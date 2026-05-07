@@ -43,7 +43,10 @@
   font-size: var(--font-size-base);
   font-weight: 650;
   line-height: 1.35;
-  margin: 0.55rem 0;
+}
+
+.howtoHours p { 
+ margin: 0.55rem 0;
 }
 
 .howtoUnderline {
