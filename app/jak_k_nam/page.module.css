@@ -38,7 +38,8 @@
   margin: 0.55rem 0;
 }
 .howtoHours {
-   margin: 0;
+  margin-top: 1rem;
+  margin: 0;
   padding-left: 1.3rem;
   font-size: var(--font-size-base);
   font-weight: 650;
