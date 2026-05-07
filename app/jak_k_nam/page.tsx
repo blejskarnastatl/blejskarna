@@ -47,7 +47,7 @@ export default function JakKNamPage() {
 
           <div className={styles.howtoHours}>
             <p>
-              <span className={styles.howtoUnderline}>Otvírací doba:</span>
+              <span className={styles.howtoUnderline}>Otvíračka:</span>
             </p>
             <p>Po-Pá: 7:00 - 17:00</p>
             <p>So: Dle domluvy</p>
