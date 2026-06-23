@@ -67,7 +67,7 @@
   box-shadow: 2px 3px 0 rgba(0,0,0,0.9);
 }
 
-/* lehký “halftone” dot pattern uvnitř bubliny */
+/* lehký "halftone" dot pattern uvnitř bubliny */
 .highlight::after {
   content: "";
   position: absolute;
@@ -140,7 +140,7 @@
   z-index: 1;
 }
 
-/* “ručně podtrženo” */
+/* "ručně podtrženo" */
 .customHighlight::after {
   content: "";
   position: absolute;
@@ -187,7 +187,7 @@
   }
 }
 
-/* New rules for the ceník image wrapper to match original layout */
+/* Ceník image wrapper - scaled to 200% and responsive */
 .cenikInner {
   grid-column: 1 / -1; /* span the full grid width */
   display: flex;
@@ -196,11 +196,33 @@
   box-sizing: border-box;
   padding: 1rem 0; /* preserve vertical spacing similar to cards */
   margin: 0 auto;
-  max-width: 980px; /* explicit max-width to match visual placement of original cards */
+  max-width: 1960px; /* 980px * 2 for 200% scaling */
+  overflow: hidden;
 }
 
 .cenikInner img {
   display: block;
   width: 100%;
   height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* Medium screens (tablet) - adjust max-width for better scaling */
+@media (max-width: 1200px) {
+  .cenikInner {
+    max-width: 1400px;
+  }
+}
+
+/* Small screens (mobile) - stack properly */
+@media (max-width: 768px) {
+  .cenikInner {
+    padding: 0.5rem 0;
+    max-width: 100%;
+  }
+
+  .cenikInner img {
+    width: 100%;
+  }
 }
