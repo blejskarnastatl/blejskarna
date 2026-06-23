@@ -29,20 +29,17 @@
 }
 
 .navTopRow {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-areas:
-    "phone actions";
-  align-items: center;
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
+  align-items: stretch;
 }
 
 .topActions {
-  grid-area: actions;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 0.75rem;
-  justify-self: end;
+  justify-content: center;
 }
 
 .navPill {
@@ -65,10 +62,9 @@
 
 /* telefon jako varianta pillu */
 .navPillHighlight {
-  display: inline-block;
-  justify-items: center; 
-  align-content: center;   
-  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 650;
   font-size: var(--font-size-lg);
   padding: 0.7rem 1.5rem 0.65rem 1.5rem;
@@ -77,6 +73,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 100%;
 }
 
 /* hover + focus */
@@ -261,33 +258,34 @@
 
   .navTopRow {
     display: flex;
+    flex-direction: row;
     justify-content: flex-end;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .navPillHighlight {
+    width: auto;
   }
 
   .phoneCta {
     margin-top: 0;
     width: auto;
     justify-content: center;
-    align-self: flex-end;
-
+    align-self: center;
     white-space: nowrap;
   }
 }
 
 @media (max-width: 800px) {
   .navTopRow {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "actions"
-      "phone";
-    justify-items: end;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   .navPillHighlight {
-    justify-self: end;      
-    width: fit-content;      
-    max-width: 65vw;
-    white-space: normal; 
+    width: 100%;
+    white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
@@ -295,17 +293,19 @@
 
   .topActions {
     justify-self: end;
+    width: 100%;
   }
 }
 
 @media (max-width: 650px) {
   .navPillHighlight {
-    display: inline-grid;
-    grid-auto-flow: row;
-    justify-items: center;
-    align-content: center;
-    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     white-space: normal;
     font-size: var(--font-size-base);
+    gap: 0.5rem;
+    flex-wrap: wrap;
   }
 }
