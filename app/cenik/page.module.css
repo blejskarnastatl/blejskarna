@@ -186,3 +186,21 @@
     min-width: 0;
   }
 }
+
+/* New rules for the ceník image wrapper to match original layout */
+.cenikInner {
+  grid-column: 1 / -1; /* span the full grid width */
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem 0; /* preserve vertical spacing similar to cards */
+  margin: 0 auto;
+  max-width: 980px; /* explicit max-width to match visual placement of original cards */
+}
+
+.cenikInner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
