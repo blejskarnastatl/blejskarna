@@ -12,7 +12,6 @@ const navLinks = [
   { href: "/jak_k_nam", label: "Jak k nám" },
   { href: "/fotogalerie", label: "Galerie" },
   { href: "/cenik", label: "Ceník" },
-  { href: "/poukazy", label: "Dárkové poukazy" },
 ];
 
 export default function NavBar() {
