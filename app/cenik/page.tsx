@@ -13,7 +13,7 @@ export default function CenikPage() {
     <main className={styles.page}>
       <div className={styles.content}>
         <section className={styles.grid}>
-          {/* vložené SVG zabere místo karet a bude spanovat celý grid */}
+          {/* Vložené SVG zabere celý obsah stránky (místo karet i sekce "NA PŘÁNÍ") */}
           <div className={styles.cenikInner}>
             <img
               src="/blejskarna-cedule-komplet.svg"
@@ -21,22 +21,6 @@ export default function CenikPage() {
               loading="lazy"
             />
           </div>
-        </section>
-
-        {/* NA PŘÁNÍ */}
-        <section className={styles.customBox}>
-          <h2 className={styles.title}>
-            Blejsk <span className={styles.highlight}>NA&nbsp;PŘÁNÍ</span>
-          </h2>
-
-          <p>
-            Chceš vosk, ozon, keramiku nebo odstranit folie?<br />
-            Rozleštit lucerny nebo celou kastlu?
-          </p>
-
-          <p className={styles.customHighlight}>
-            Řekni a nahodíme blejsk podle tebe.
-          </p>
         </section>
       </div>
     </main>
