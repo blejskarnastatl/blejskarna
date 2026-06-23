@@ -3,7 +3,6 @@
 import styles from "./NavBar.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import { FaShoppingCart } from "react-icons/fa";
 import { useCart } from "./cart";
 import { useEffect, useState } from "react";
 
@@ -69,17 +68,6 @@ export default function NavBar() {
             </a>
 
             <div className={styles.topActions}>
-              <Link href="/kosik" className={styles.cartPill} aria-label="Košík">
-                <FaShoppingCart />
-                <span
-                  className={styles.cartBadge}
-                  style={{ display: qty > 0 ? "inline-flex" : "none" }}
-                  suppressHydrationWarning
-                >
-                  {qty}
-                </span>
-              </Link>
-
               <button
                 type="button"
                 className={styles.menuButton}
