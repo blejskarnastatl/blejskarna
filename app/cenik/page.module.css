@@ -187,16 +187,16 @@
   }
 }
 
-/* Ceník image wrapper - scaled to 200% and responsive */
+/* Ceník image wrapper - scaled to 300% and responsive */
 .cenikInner {
   grid-column: 1 / -1; /* span the full grid width */
   display: flex;
   justify-content: center;
   width: 100%;
   box-sizing: border-box;
-  padding: 1rem 0; /* preserve vertical spacing similar to cards */
+  padding: 1.5rem 0; /* preserve vertical spacing similar to cards */
   margin: 0 auto;
-  max-width: 1960px; /* 980px * 2 for 200% scaling */
+  max-width: 2940px; /* 980px * 3 for 300% scaling */
   overflow: hidden;
 }
 
@@ -211,7 +211,7 @@
 /* Medium screens (tablet) - adjust max-width for better scaling */
 @media (max-width: 1200px) {
   .cenikInner {
-    max-width: 1400px;
+    max-width: 1960px; /* 980px * 2 for 200% scaling */
   }
 }
 
