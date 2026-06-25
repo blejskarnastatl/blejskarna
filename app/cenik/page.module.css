@@ -8,7 +8,7 @@
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  background: linear-gradient(90deg, #1565C0 0%, #1243A0 50%, #0D3E91 100%);
+  background: #38b6ff;
   margin-bottom: 2rem;
   animation: slideDown 0.4s ease-out;
 }
@@ -28,11 +28,13 @@
   font-weight: 600;
   line-height: 1.6;
   letter-spacing: 0.4px;
+  font-family: "League Spartan", sans-serif;
 }
 
 .disclaimer strong {
   font-weight: 800;
   color: #ffffff;
+  font-family: "League Spartan", sans-serif;
 }
 
 @keyframes slideDown {
