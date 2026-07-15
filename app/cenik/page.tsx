@@ -30,7 +30,7 @@ export default function CenikPage() {
           </div>
 
           {/* Doplňkový ceník - přidané pod hlavním ceníkem, centrované a s odstupem ~1in */}
-          <div className={styles.cenikInner} style={{ marginTop: '1in' }}>
+          <div className={`${styles.cenikInner} ${styles.doplnkovy}`}>
             <img
               src="/doplnkovy-cenik.svg.svg"
               alt="Doplňkový ceník Blejškárna"

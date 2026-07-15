@@ -275,6 +275,20 @@
   object-fit: contain;
 }
 
+/* Modifier for the supplemental ceník: responsive top gap and scaled-down image */
+.doplnkovy {
+  /* Keep up to 1in on large screens but scale down on smaller displays */
+  margin-top: clamp(0.5rem, 6vw, 1in);
+}
+
+/* Shrink the supplemental image to ~66.666% (one third smaller) and keep it centered */
+.doplnkovy img {
+  width: 66.666%;
+  max-width: 1960px;
+  height: auto;
+  transform-origin: center;
+}
+
 /* Medium screens (tablet) - adjust max-width for better scaling */
 @media (max-width: 1200px) {
   .cenikInner {
@@ -291,5 +305,10 @@
 
   .cenikInner img {
     width: 100%;
+  }
+
+  /* On very small screens keep the supplemental image readable (don't shrink it too much) */
+  .doplnkovy img {
+    width: 80%;
   }
 }
