@@ -26,6 +26,7 @@ export default function CenikPage() {
               src="/blejskarna-cedule-komplet.svg"
               alt="Ceník Blejškárna"
               loading="lazy"
+              style={{ transform: "scale(1.25)" }}
             />
           </div>
 
