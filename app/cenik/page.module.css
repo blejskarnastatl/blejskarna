@@ -261,9 +261,9 @@
   justify-content: center;
   width: 100%;
   box-sizing: border-box;
-  padding: 1.5rem 0; /* preserve vertical spacing similar to cards */
+  padding: 0.75rem 0; /* preserved vertical spacing reduced by ~50% to bring images closer */
   margin: 0 auto;
-  max-width: 2940px; /* 980px * 3 for 300% scaling */
+  max-width: 3675px; /* was 2940px (300%), increased by 25% => 3675px */
   overflow: hidden;
 }
 
@@ -278,7 +278,7 @@
 /* Modifier for the supplemental ceník: responsive top gap and scaled-down image */
 .doplnkovy {
   /* Keep up to 1in on large screens but scale down on smaller displays */
-  margin-top: clamp(0.5rem, 6vw, 1in);
+  margin-top: clamp(0.25rem, 3vw, 0.5in); /* halved the previous gap to bring supplemental image closer */
 }
 
 /* Shrink the supplemental image to ~66.666% (one third smaller) and keep it centered */
@@ -292,14 +292,14 @@
 /* Medium screens (tablet) - adjust max-width for better scaling */
 @media (max-width: 1200px) {
   .cenikInner {
-    max-width: 1960px; /* 980px * 2 for 200% scaling */
+    max-width: 2450px; /* was 1960px (200%), increased by 25% => 2450px */
   }
 }
 
 /* Small screens (mobile) - stack properly */
 @media (max-width: 768px) {
   .cenikInner {
-    padding: 0.5rem 0;
+    padding: 0.25rem 0;
     max-width: 100%;
   }
 
